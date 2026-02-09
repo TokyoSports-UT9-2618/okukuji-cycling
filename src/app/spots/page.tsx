@@ -1,46 +1,59 @@
-import { Metadata } from 'next';
 import Header from '@/components/Header';
+import SpotsSection from '@/components/SpotsSection';
 import Footer from '@/components/Footer';
-import { mockSpots } from '@/lib/mock-microcms';
-import { SpotCard } from '@/components/SpotsSection';
+import { client } from '@/lib/client';
+import type { Spot } from '@/types';
 
-export const metadata: Metadata = {
+export const metadata = {
     title: 'スポット情報 | 奥久慈街道サイクリング',
-    description: '休憩・補給・グルメ・温泉など、サイクリストに便利なスポットをご紹介。アイコンで設備をすぐに確認できます。',
+    description: '奥久慈街道周辺のサイクルスポット、グルメ、休憩所などをご紹介します。',
 };
 
-export default function SpotsPage() {
+// Revalidate every hour
+export const revalidate = 3600;
+
+export default async function SpotsPage() {
+    let spots: Spot[] = [];
+
+    try {
+        const data = await client.get({
+            endpoint: 'spots',
+            queries: { limit: 100 }, // Fetch all spots (up to limit)
+        });
+        spots = data.contents;
+    } catch (error) {
+        console.error('Failed to fetch spots:', error);
+    }
+
+    // Determine sections or just list all?
+    // User asked for "List page... all spots".
+
     return (
         <>
             <Header />
-            <main className="min-h-screen pt-20">
-                {/* ページヘッダー */}
-                <section className="bg-gradient-to-r from-emerald-600 to-teal-600 py-16">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                        <p className="text-emerald-100 font-medium mb-2 tracking-widest text-sm">
-                            CYCLING SPOTS
-                        </p>
-                        <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                            スポット情報
+            <main className="pt-24 pb-20 bg-gray-50 min-h-screen">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="mb-12 text-center">
+                        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 mt-8">
+                            全スポット一覧
                         </h1>
-                        <p className="text-emerald-100 max-w-2xl mx-auto">
-                            休憩・補給・グルメ・温泉など、サイクリストに便利なスポットをご紹介。
-                            <br className="hidden sm:block" />
-                            アイコンで設備をすぐに確認できます。
+                        <p className="text-gray-600">
+                            奥久慈街道エリアのすべてのスポットをご覧いただけます。
                         </p>
                     </div>
-                </section>
 
-                {/* スポット一覧 */}
-                <section className="py-16">
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {mockSpots.map((spot, index) => (
-                                <SpotCard key={spot.id} spot={spot} index={index} />
-                            ))}
-                        </div>
-                    </div>
-                </section>
+                    {/* Reuse SpotsSection but hide header? Or just let it be. 
+              SpotsSection has a hardcoded header. 
+              Ideally I should add a prop to hide header or customize it.
+              For now, I'll let it render. It has "CYCLING SPOTS" and description.
+              Maybe I'll hide the page title I just added above and rely on SpotsSection's header?
+              But SpotsSection header is "CYCLING SPOTS / スポット情報".
+              Ideally for a dedicated page, "SPOT LIST" or "全スポット" is better.
+              I will refrain from adding the h1 above and let SpotsSection handle it, OR I will modify SpotsSection to accept a title.
+              Since I am already editing SpotsSection, I will add `title` prop.
+           */}
+                    <SpotsSection spots={spots} className="py-0" />
+                </div>
             </main>
             <Footer />
         </>

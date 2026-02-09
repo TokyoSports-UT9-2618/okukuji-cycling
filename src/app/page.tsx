@@ -4,13 +4,14 @@ import MainCourseSection from '@/components/MainCourseSection';
 import SpotsSection from '@/components/SpotsSection';
 import NewsSection from '@/components/NewsSection';
 import Footer from '@/components/Footer';
-import { mockCourses, mockSpots, mockNews } from '@/lib/mock-microcms';
+import { mockCourses, mockNews } from '@/lib/mock-microcms';
 
 import { client } from '@/lib/client';
-import type { News, Course } from '@/types';
+import type { News, Course, Spot } from '@/types';
 
 export default async function Home() {
   let news: News[] = [];
+  let spots: Spot[] = [];
   let mainCourse: Course = mockCourses[0];
 
   try {
@@ -30,10 +31,18 @@ export default async function Home() {
       mainCourse = courseData.contents[0];
     }
 
+    // Spot Fetch (Top Page Filter)
+    const spotsData = await client.get({
+      endpoint: 'spots',
+      queries: { filters: 'show_on_top[equals]true', limit: 10 },
+    });
+    spots = spotsData.contents;
+
   } catch (error) {
     console.error('Failed to fetch data:', error);
     // Fallback to mock data for news (course already has fallback)
     news = mockNews;
+    // Spots fallback: empty (Requirement: Delete mock data usage)
   }
 
   // Ensure we have data (if fetch returns empty but no error)
@@ -48,7 +57,7 @@ export default async function Home() {
         <Hero />
         <NewsSection news={news} />
         <MainCourseSection course={mainCourse} />
-        <SpotsSection spots={mockSpots} />
+        <SpotsSection spots={spots} viewAllLink="/spots" />
 
         {/* Access Section */}
         <section id="access" className="py-20">

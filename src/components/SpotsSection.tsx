@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -57,12 +58,13 @@ const FACILITY_MAPPING: Record<string, SpotCategory> = {
     store: 'コンビニ',
 };
 
-interface SpotCardProps {
-    spot: Spot;
-    index: number;
+interface SpotsSectionProps {
+    spots: Spot[];
+    viewAllLink?: string;
+    className?: string;
 }
 
-export function SpotCard({ spot, index }: SpotCardProps) {
+export function SpotCard({ spot, index }: { spot: Spot; index: number }) {
     // facilitiesがあれば日本語カテゴリに変換して優先使用、なければ既存のcategoriesを使用
     const displayCategories = spot.facilities
         ? spot.facilities
@@ -157,11 +159,7 @@ export function SpotCard({ spot, index }: SpotCardProps) {
     );
 }
 
-interface SpotsSectionProps {
-    spots: Spot[];
-}
-
-export default function SpotsSection({ spots }: SpotsSectionProps) {
+export default function SpotsSection({ spots, viewAllLink, className }: SpotsSectionProps) {
     const [activeCategory, setActiveCategory] = useState<SpotCategory | null>(null);
 
     // フィルタリングロジック
@@ -177,7 +175,7 @@ export default function SpotsSection({ spots }: SpotsSectionProps) {
         : spots;
 
     return (
-        <section id="spots" className="py-20">
+        <section id="spots" className={cn("py-20", className)}>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* セクションヘッダー */}
                 <motion.div
@@ -247,6 +245,18 @@ export default function SpotsSection({ spots }: SpotsSectionProps) {
                 {filteredSpots.length === 0 && (
                     <div className="text-center text-gray-500 py-12">
                         該当するスポットがありません。
+                    </div>
+                )}
+
+                {/* 「すべて見る」ボタン */}
+                {viewAllLink && (
+                    <div className="mt-12 text-center">
+                        <Link
+                            href={viewAllLink}
+                            className="inline-flex items-center justify-center px-8 py-3 text-base font-medium text-emerald-600 border-2 border-emerald-600 rounded-full hover:bg-emerald-600 hover:text-white transition-colors duration-300"
+                        >
+                            すべてのスポットを見る
+                        </Link>
                     </div>
                 )}
             </div>
