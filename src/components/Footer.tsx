@@ -104,21 +104,6 @@ export default function Footer() {
                     {/* 関連リンク */}
                     <div>
                         <h3 className="font-bold text-white mb-4">関連リンク</h3>
-                        <ul className="space-y-2">
-                            {footerLinks.external.map((link) => (
-                                <li key={link.href}>
-                                    <a
-                                        href={link.href}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="text-gray-400 hover:text-emerald-400 transition-colors text-sm inline-flex items-center gap-1"
-                                    >
-                                        {link.label}
-                                        <ExternalLink className="w-3 h-3" />
-                                    </a>
-                                </li>
-                            ))}
-                        </ul>
                     </div>
                 </div>
             </div>
@@ -128,7 +113,7 @@ export default function Footer() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
                     <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
                         <p className="text-xs text-gray-500">
-                            © 2026 奥久慈街道サイクリング実行委員会. All rights reserved.
+                            © 2026 東白川サイクリング推進会議. All rights reserved.
                         </p>
                         <div className="flex gap-4 text-xs text-gray-500">
                             <a href="/privacy" className="hover:text-gray-400 transition-colors">
