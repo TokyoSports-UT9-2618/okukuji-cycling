@@ -57,13 +57,13 @@ export default function Hero() {
     // 静的表示（reduced-motion時）
     const staticContent = (
         <div className="text-center px-4">
-            <p className="text-white/80 text-sm md:text-base mb-4 tracking-widest">
+            <p className="text-white/90 text-sm md:text-base mb-4 tracking-widest drop-shadow-lg">
                 OKUKUJI KAIDO CYCLING
             </p>
-            <h1 className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+            <h1 className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 drop-shadow-lg">
                 {catchCopy}
             </h1>
-            <p className="text-white/70 text-base md:text-lg max-w-2xl mx-auto mb-8">
+            <p className="text-white/90 text-base md:text-lg max-w-2xl mx-auto mb-8 drop-shadow-lg">
                 福島県奥久慈地方の雄大な自然を、自転車で巡る特別な体験。
                 <br className="hidden sm:block" />
                 久慈川沿いの渓谷美、里山の風景、地元グルメを満喫できるサイクリングルート。
@@ -84,7 +84,7 @@ export default function Hero() {
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
-                className="text-white/80 text-sm md:text-base mb-4 tracking-widest"
+                className="text-white/90 text-sm md:text-base mb-4 tracking-widest drop-shadow-lg"
             >
                 OKUKUJI KAIDO CYCLING
             </motion.p>
@@ -93,7 +93,7 @@ export default function Hero() {
                 variants={containerVariants}
                 initial="hidden"
                 animate="visible"
-                className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6"
+                className="text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 drop-shadow-lg"
             >
                 {catchCopy.split('').map((char, index) => (
                     <motion.span key={index} variants={charVariants} className="inline-block">
@@ -106,7 +106,7 @@ export default function Hero() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8, delay: 1.2 }}
-                className="text-white/70 text-base md:text-lg max-w-2xl mx-auto mb-8"
+                className="text-white/90 text-base md:text-lg max-w-2xl mx-auto mb-8 drop-shadow-lg"
             >
                 福島県奥久慈地方の雄大な自然を、自転車で巡る特別な体験。
                 <br className="hidden sm:block" />
@@ -140,11 +140,11 @@ export default function Hero() {
                 <div
                     className="absolute inset-0 bg-cover bg-center bg-no-repeat scale-110"
                     style={{
-                        backgroundImage: `url('https://images.unsplash.com/photo-1534787238916-9ba6764efd4f?w=1920&q=80')`,
+                        backgroundImage: `url('/hero-main.jpg')`,
                     }}
                 />
                 {/* オーバーレイ */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/60" />
+                <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60" />
             </motion.div>
 
             {/* コンテンツ */}

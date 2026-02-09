@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Bike } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import Image from 'next/image';
 
 const navItems = [
     { label: 'ホーム', href: '/' },
@@ -41,24 +42,17 @@ export default function Header() {
             )}
         >
             <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between h-16 md:h-20">
+                <div className="flex items-center justify-between py-2 md:py-3 box-content min-h-[50px] md:min-h-[75px]">
                     {/* Logo */}
-                    <a href="/" className="flex items-center gap-2 group">
-                        <Bike
-                            className={cn(
-                                'w-8 h-8 transition-colors',
-                                isScrolled ? 'text-emerald-600' : 'text-white'
-                            )}
+                    <a href="/" className="flex items-center group">
+                        <Image
+                            src="/logo.png"
+                            alt="Okukuji Kaido Cycling"
+                            width={300}
+                            height={75}
+                            className="h-[50px] w-auto md:h-[75px] object-contain"
+                            priority
                         />
-                        <span
-                            className={cn(
-                                'font-bold text-lg md:text-xl tracking-tight transition-colors',
-                                isScrolled ? 'text-gray-900' : 'text-white'
-                            )}
-                        >
-                            奥久慈街道
-                            <span className="hidden sm:inline">サイクリング</span>
-                        </span>
                     </a>
 
                     {/* Desktop Navigation */}
