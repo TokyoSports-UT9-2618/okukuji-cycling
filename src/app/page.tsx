@@ -89,7 +89,8 @@ export default async function Home() {
 
             <div className="grid md:grid-cols-2 gap-8">
               {Array.isArray(access) && access.map((item) => {
-                const Icon = item.type === 'train' ? Train : Car;
+                const isTrain = item.type?.toLowerCase().includes('train');
+                const Icon = isTrain ? Train : Car;
                 // itemsが配列か文字列（リッチエディタ等）かを確認して正規化
                 const listItems = Array.isArray(item.items)
                   ? item.items
@@ -106,8 +107,11 @@ export default async function Home() {
                     <ul className="space-y-3 text-gray-600">
                       {listItems.map((listItem, index) => (
                         <li key={index} className="flex items-start gap-2">
-                          <ChevronRight className="w-5 h-5 text-emerald-500 flex-shrink-0" />
-                          <span>{listItem}</span>
+                          <ChevronRight className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-1" />
+                          <div
+                            className="break-words [&>p]:mb-0"
+                            dangerouslySetInnerHTML={{ __html: listItem }}
+                          />
                         </li>
                       ))}
                     </ul>
