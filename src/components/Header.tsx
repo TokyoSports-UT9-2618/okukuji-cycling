@@ -42,7 +42,7 @@ export default function Header() {
             )}
         >
             <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between py-2 md:py-3 box-content min-h-[50px] md:min-h-[75px]">
+                <div className="flex items-center justify-between py-3 md:py-4 box-content">
                     {/* Logo */}
                     <a href="/" className="flex items-center group">
                         <Image
@@ -50,7 +50,7 @@ export default function Header() {
                             alt="Okukuji Kaido Cycling"
                             width={300}
                             height={75}
-                            className="h-[50px] w-auto md:h-[75px] object-contain"
+                            className="w-[120px] h-auto md:w-[160px] object-contain"
                             priority
                         />
                     </a>
