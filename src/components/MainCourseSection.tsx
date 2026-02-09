@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import { Mountain, Clock, Route, ExternalLink } from 'lucide-react';
 import { mockCourses } from '@/lib/mock-microcms';
-import Image from 'next/image';
+
 
 export default function MainCourseSection() {
     // ID: course-001 (久慈川源流周遊コース) を取得
@@ -96,29 +96,19 @@ export default function MainCourseSection() {
                         </motion.div>
                     </div>
 
-                    {/* 右側：ビジュアル＆地図 */}
+                    {/* 右側：地図のみ */}
                     <motion.div
-                        className="space-y-6"
+                        className="h-full"
                         initial={{ opacity: 0, x: 20 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8 }}
                     >
-                        {/* メイン画像 */}
-                        <div className="relative aspect-video w-full rounded-2xl overflow-hidden shadow-2xl">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img
-                                src={course.mainImage.url}
-                                alt={course.name}
-                                className="object-cover w-full h-full transform hover:scale-105 transition-transform duration-700"
-                            />
-                        </div>
-
                         {/* 埋め込み地図 */}
-                        <div className="rounded-xl overflow-hidden border border-white/10 shadow-lg bg-black/50">
+                        <div className="rounded-xl overflow-hidden border border-white/10 shadow-lg bg-black/50 h-full">
                             <iframe
                                 src="https://ridewithgps.com/embeds?type=route&id=37488447&sampleGraph=true"
-                                style={{ width: '100%', height: '300px', border: 'none' }}
+                                style={{ width: '100%', height: '600px', border: 'none' }}
                                 title="Ride with GPS Route"
                             >
                             </iframe>
