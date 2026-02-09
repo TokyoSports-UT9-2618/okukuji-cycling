@@ -66,7 +66,7 @@ export type SpotCategory =
 
 export interface Spot extends MicroCMSDate {
     id: string;
-    name: string;
+    title: string;
     categories: SpotCategory[];
     summary: string;
     description?: string;

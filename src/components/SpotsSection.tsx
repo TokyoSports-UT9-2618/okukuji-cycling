@@ -88,7 +88,7 @@ export function SpotCard({ spot, index }: { spot: Spot; index: number }) {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="absolute inset-0 z-10"
-                    aria-label={`${spot.name}の公式サイトへ`}
+                    aria-label={`${spot.title}の公式サイトへ`}
                 />
             )}
 
@@ -97,7 +97,7 @@ export function SpotCard({ spot, index }: { spot: Spot; index: number }) {
                 <div className="h-40 overflow-hidden relative">
                     <img
                         src={spot.image.url}
-                        alt={spot.name}
+                        alt={spot.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     {/* 外部リンクアイコン（右上に表示など） */}
@@ -112,12 +112,15 @@ export function SpotCard({ spot, index }: { spot: Spot; index: number }) {
             {/* コンテンツ */}
             <div className="p-4 flex flex-col flex-grow">
                 <h3 className={cn(
-                    "font-bold text-gray-900 mb-2 transition-colors",
+                    "font-bold text-lg mb-2 transition-colors",
+                    "text-gray-900", // 明示的に黒を指定
                     spot.link && "group-hover:text-emerald-600"
                 )}>
-                    {spot.name}
+                    {spot.title}
                 </h3>
-                <p className="text-gray-600 text-sm mb-3 line-clamp-2">{spot.summary}</p>
+                <p className="text-gray-600 text-sm mb-3 line-clamp-2">
+                    {spot.description || spot.summary}
+                </p>
 
                 {/* 電話番号 & カテゴリ */}
                 <div className="mt-auto space-y-3">
