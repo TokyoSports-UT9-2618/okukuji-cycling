@@ -1,6 +1,6 @@
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
-import CoursesSection from '@/components/CoursesSection';
+import MainCourseSection from '@/components/MainCourseSection';
 import SpotsSection from '@/components/SpotsSection';
 import NewsSection from '@/components/NewsSection';
 import Footer from '@/components/Footer';
@@ -13,7 +13,7 @@ export default function Home() {
       <main>
         <Hero />
         <NewsSection news={mockNews} />
-        <CoursesSection courses={mockCourses} />
+        <MainCourseSection />
         <SpotsSection spots={mockSpots} />
 
         {/* Access Section */}
