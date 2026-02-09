@@ -89,7 +89,13 @@ export default async function Home() {
 
             <div className="grid md:grid-cols-2 gap-8">
               {Array.isArray(access) && access.map((item) => {
-                const isTrain = item.category?.toLowerCase().includes('train');
+                // categoryがオブジェクトの場合（microCMSの仕様）に対応して正規化
+                const rawInfo = item.category as any;
+                const categoryStr = typeof rawInfo === 'object' && rawInfo !== null
+                  ? rawInfo.id || (Array.isArray(rawInfo) ? rawInfo[0] : '')
+                  : rawInfo;
+
+                const isTrain = String(categoryStr || '').toLowerCase().includes('train');
                 const Icon = isTrain ? Train : Car;
                 const iconColor = isTrain ? 'text-emerald-600' : 'text-rose-500';
                 // itemsが配列か文字列（リッチエディタ等）かを確認して正規化
