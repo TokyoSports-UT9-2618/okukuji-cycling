@@ -11,6 +11,8 @@ import {
     Coffee,
     Thermometer,
     Store,
+    Phone,
+    ExternalLink,
 } from 'lucide-react';
 import type { Spot, SpotCategory } from '@/types';
 import { cn } from '@/lib/utils';
@@ -53,41 +55,79 @@ export function SpotCard({ spot, index }: SpotCardProps) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-30px' }}
             transition={{ duration: 0.4, delay: index * 0.05 }}
-            className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow"
+            className="group relative bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 h-full flex flex-col"
         >
+            {/* カード全体リンク（存在する場合のみ） */}
+            {spot.link && (
+                <a
+                    href={spot.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="absolute inset-0 z-10"
+                    aria-label={`${spot.name}の公式サイトへ`}
+                />
+            )}
+
             {/* 画像 */}
             {spot.image && (
-                <div className="h-40 overflow-hidden">
+                <div className="h-40 overflow-hidden relative">
                     <img
                         src={spot.image.url}
                         alt={spot.name}
-                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
+                    {/* 外部リンクアイコン（右上に表示など） */}
+                    {spot.link && (
+                        <div className="absolute top-2 right-2 bg-black/50 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <ExternalLink className="w-4 h-4" />
+                        </div>
+                    )}
                 </div>
             )}
 
             {/* コンテンツ */}
-            <div className="p-4">
-                <h3 className="font-bold text-gray-900 mb-2">{spot.name}</h3>
+            <div className="p-4 flex flex-col flex-grow">
+                <h3 className={cn(
+                    "font-bold text-gray-900 mb-2 transition-colors",
+                    spot.link && "group-hover:text-emerald-600"
+                )}>
+                    {spot.name}
+                </h3>
                 <p className="text-gray-600 text-sm mb-3 line-clamp-2">{spot.summary}</p>
 
-                {/* カテゴリアイコン */}
-                <div className="flex flex-wrap gap-2">
-                    {spot.categories.map((category) => {
-                        const Icon = categoryIcons[category];
-                        return (
-                            <span
-                                key={category}
-                                className={cn(
-                                    'inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full',
-                                    categoryColors[category]
-                                )}
+                {/* 電話番号 & カテゴリ */}
+                <div className="mt-auto space-y-3">
+                    {/* 電話番号（リンクの上に配置するため z-20） */}
+                    {spot.tel && (
+                        <div className="flex items-center">
+                            <a
+                                href={`tel:${spot.tel}`}
+                                className="relative z-20 inline-flex items-center gap-1.5 text-sm text-gray-600 hover:text-emerald-600 font-medium transition-colors p-1 -ml-1 rounded hover:bg-emerald-50"
                             >
-                                <Icon className="w-3 h-3" />
-                                {category}
-                            </span>
-                        );
-                    })}
+                                <Phone className="w-4 h-4" />
+                                <span>{spot.tel}</span>
+                            </a>
+                        </div>
+                    )}
+
+                    {/* カテゴリアイコン */}
+                    <div className="flex flex-wrap gap-2">
+                        {spot.categories.map((category) => {
+                            const Icon = categoryIcons[category];
+                            return (
+                                <span
+                                    key={category}
+                                    className={cn(
+                                        'inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full',
+                                        categoryColors[category]
+                                    )}
+                                >
+                                    <Icon className="w-3 h-3" />
+                                    {category}
+                                </span>
+                            );
+                        })}
+                    </div>
                 </div>
             </div>
         </motion.article>
