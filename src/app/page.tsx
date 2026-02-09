@@ -7,19 +7,32 @@ import Footer from '@/components/Footer';
 import { mockCourses, mockSpots, mockNews } from '@/lib/mock-microcms';
 
 import { client } from '@/lib/client';
-import type { News } from '@/types';
+import type { News, Course } from '@/types';
 
 export default async function Home() {
   let news: News[] = [];
+  let mainCourse: Course = mockCourses[0];
+
   try {
-    const data = await client.get({
+    // News Fetch
+    const newsData = await client.get({
       endpoint: 'news',
       queries: { limit: 3 },
     });
-    news = data.contents;
+    news = newsData.contents;
+
+    // Course Fetch (Main Course)
+    const courseData = await client.get({
+      endpoint: 'courses',
+      queries: { limit: 1 }, // Fetch the first course as the main one
+    });
+    if (courseData.contents.length > 0) {
+      mainCourse = courseData.contents[0];
+    }
+
   } catch (error) {
-    console.error('Failed to fetch news:', error);
-    // Fallback to mock data
+    console.error('Failed to fetch data:', error);
+    // Fallback to mock data for news (course already has fallback)
     news = mockNews;
   }
 
@@ -34,7 +47,7 @@ export default async function Home() {
       <main>
         <Hero />
         <NewsSection news={news} />
-        <MainCourseSection />
+        <MainCourseSection course={mainCourse} />
         <SpotsSection spots={mockSpots} />
 
         {/* Access Section */}

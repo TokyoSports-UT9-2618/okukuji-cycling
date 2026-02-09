@@ -2,13 +2,13 @@
 
 import { motion } from 'framer-motion';
 import { Mountain, Clock, Route, ExternalLink } from 'lucide-react';
-import { mockCourses } from '@/lib/mock-microcms';
+import type { Course } from '@/types';
 
+interface MainCourseSectionProps {
+    course: Course;
+}
 
-export default function MainCourseSection() {
-    // ID: course-001 (久慈川源流周遊コース) を取得
-    const course = mockCourses.find((c) => c.id === 'course-001') || mockCourses[0];
-
+export default function MainCourseSection({ course }: MainCourseSectionProps) {
     return (
         <section className="relative py-24 bg-stone-900 text-white overflow-hidden">
             {/* 背景装飾 */}
@@ -72,7 +72,9 @@ export default function MainCourseSection() {
                                     <Clock className="w-5 h-5" />
                                     <span className="text-sm font-medium">LEVEL</span>
                                 </div>
-                                <p className="text-xl font-bold mt-1">中級</p>
+                                <p className="text-xl font-bold mt-1">
+                                    {course.difficulty ? (course.difficulty.split('（')[1]?.replace('）', '') || course.difficulty) : '---'}
+                                </p>
                             </div>
                         </motion.div>
 
