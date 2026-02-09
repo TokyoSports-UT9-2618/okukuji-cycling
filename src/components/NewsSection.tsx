@@ -35,7 +35,7 @@ export function NewsCard({ news, index }: NewsCardProps) {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: '-30px' }}
             transition={{ duration: 0.4, delay: index * 0.1 }}
-            className="flex-shrink-0 w-80 bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all group"
+            className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all group h-full flex flex-col"
         >
             {/* サムネイル */}
             {news.thumbnail && (
@@ -90,8 +90,11 @@ interface NewsSectionProps {
 }
 
 export default function NewsSection({ news }: NewsSectionProps) {
+    // 最新3件のみ表示
+    const latestNews = news.slice(0, 3);
+
     return (
-        <section id="news" className="py-20 bg-gray-50 overflow-hidden">
+        <section id="news" className="py-20 bg-emerald-50 overflow-hidden">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* セクションヘッダー */}
                 <motion.div
@@ -112,31 +115,29 @@ export default function NewsSection({ news }: NewsSectionProps) {
                     </p>
                 </motion.div>
 
-                {/* 横スクロールカード */}
-                <div className="relative">
-                    <div className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide">
-                        {news.map((item, index) => (
-                            <div key={item.id} className="snap-start">
-                                <NewsCard news={item} index={index} />
-                            </div>
-                        ))}
-                        {/* すべて見るカード */}
-                        <motion.a
-                            href="/news"
-                            initial={{ opacity: 0 }}
-                            whileInView={{ opacity: 1 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.4, delay: 0.3 }}
-                            className="flex-shrink-0 w-60 bg-emerald-50 border-2 border-dashed border-emerald-300 rounded-xl flex flex-col items-center justify-center p-6 hover:bg-emerald-100 transition-colors group"
-                        >
-                            <ChevronRight className="w-10 h-10 text-emerald-500 mb-2 group-hover:translate-x-1 transition-transform" />
-                            <span className="text-emerald-700 font-semibold">すべて見る</span>
-                        </motion.a>
-                    </div>
-
-                    {/* グラデーションフェード（右端） */}
-                    <div className="absolute top-0 right-0 bottom-4 w-20 bg-gradient-to-l from-gray-50 to-transparent pointer-events-none" />
+                {/* ニュースグリッド */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                    {latestNews.map((item, index) => (
+                        <NewsCard key={item.id} news={item} index={index} />
+                    ))}
                 </div>
+
+                {/* すべて見るボタン */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: 0.3 }}
+                    className="text-center"
+                >
+                    <a
+                        href="/news"
+                        className="inline-flex items-center gap-2 bg-white border border-emerald-500 text-emerald-600 font-medium px-8 py-3 rounded-full hover:bg-emerald-500 hover:text-white transition-all shadow-sm hover:shadow-md group"
+                    >
+                        お知らせ一覧を見る
+                        <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </a>
+                </motion.div>
             </div>
         </section>
     );

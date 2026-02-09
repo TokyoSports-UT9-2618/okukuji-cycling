@@ -12,9 +12,9 @@ export default function Home() {
       <Header />
       <main>
         <Hero />
+        <NewsSection news={mockNews} />
         <CoursesSection courses={mockCourses} />
         <SpotsSection spots={mockSpots} />
-        <NewsSection news={mockNews} />
 
         {/* Access Section */}
         <section id="access" className="py-20">
