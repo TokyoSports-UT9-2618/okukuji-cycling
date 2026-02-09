@@ -88,8 +88,15 @@ export default async function Home() {
             </div>
 
             <div className="grid md:grid-cols-2 gap-8">
-              {access.map((item) => {
+              {Array.isArray(access) && access.map((item) => {
                 const Icon = item.type === 'train' ? Train : Car;
+                // itemsが配列か文字列（リッチエディタ等）かを確認して正規化
+                const listItems = Array.isArray(item.items)
+                  ? item.items
+                  : typeof item.items === 'string'
+                    ? [item.items]
+                    : [];
+
                 return (
                   <div key={item.id} className="bg-white rounded-xl shadow-md p-6">
                     <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
@@ -97,7 +104,7 @@ export default async function Home() {
                       {item.title}
                     </h3>
                     <ul className="space-y-3 text-gray-600">
-                      {item.items.map((listItem, index) => (
+                      {listItems.map((listItem, index) => (
                         <li key={index} className="flex items-start gap-2">
                           <ChevronRight className="w-5 h-5 text-emerald-500 flex-shrink-0" />
                           <span>{listItem}</span>

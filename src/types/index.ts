@@ -85,5 +85,5 @@ export interface Access extends MicroCMSDate {
     id: string;
     type: 'train' | 'car';
     title: string;
-    items: string[];
+    items?: string[] | string;
 }
