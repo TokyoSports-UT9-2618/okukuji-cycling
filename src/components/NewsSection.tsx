@@ -29,58 +29,68 @@ export function NewsCard({ news, index }: NewsCardProps) {
         });
     };
 
+    // 画像ソースの決定（eyecatch -> thumbnail -> プレースホルダー）
+    const displaySrc = news.eyecatch?.url || news.thumbnail?.url || '/placehokder.jpg';
+    const isPlaceholder = displaySrc === '/placehokder.jpg' || displaySrc === '/logo.png';
+
     return (
         <motion.article
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: '-30px' }}
             transition={{ duration: 0.4, delay: index * 0.1 }}
-            className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all group h-full flex flex-col"
+            className="h-full"
         >
-            {/* サムネイル */}
-            {news.thumbnail && (
-                <div className="h-40 overflow-hidden">
+            <a
+                href={`/news/${news.id}`}
+                className="block bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 hover:scale-[1.02] group h-full flex flex-col"
+            >
+                {/* サムネイル */}
+                <div className="h-48 overflow-hidden bg-gray-100 flex items-center justify-center relative">
                     <img
-                        src={news.thumbnail.url}
+                        src={displaySrc}
                         alt={news.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                </div>
-            )}
-
-            {/* コンテンツ */}
-            <div className="p-5">
-                {/* カテゴリ & 日付 */}
-                <div className="flex items-center gap-3 mb-3">
-                    <span
                         className={cn(
-                            'inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-full font-medium',
-                            categoryColors[news.category]
+                            "w-full h-full transition-transform duration-500 group-hover:scale-105",
+                            isPlaceholder ? "object-contain p-2 opacity-90" : "object-cover"
                         )}
-                    >
-                        <Tag className="w-3 h-3" />
-                        {news.category}
-                    </span>
-                    <span className="inline-flex items-center gap-1 text-xs text-gray-500">
-                        <Calendar className="w-3 h-3" />
-                        {formatDate(news.publishDate)}
-                    </span>
+                    />
+                    {/* カテゴリ (画像の上に配置するデザインもよくあるが、今回は元の位置を維持するか、画像上がいいか？要望は特にないので元の位置に近い形で) */}
                 </div>
 
-                {/* タイトル */}
-                <h3 className="font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-emerald-600 transition-colors">
-                    {news.title}
-                </h3>
+                {/* コンテンツ */}
+                <div className="p-5 flex flex-col flex-grow">
+                    {/* カテゴリ & 日付 */}
+                    <div className="flex items-center gap-3 mb-3">
+                        <span
+                            className={cn(
+                                'inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-full font-medium',
+                                categoryColors[news.category] || 'bg-gray-100 text-gray-700'
+                            )}
+                        >
+                            <Tag className="w-3 h-3" />
+                            {news.category}
+                        </span>
+                        <span className="inline-flex items-center gap-1 text-xs text-gray-500">
+                            <Calendar className="w-3 h-3" />
+                            {formatDate(news.publishDate || news.publishedAt)}
+                        </span>
+                    </div>
 
-                {/* 詳細リンク */}
-                <a
-                    href={`/news/${news.id}`}
-                    className="inline-flex items-center gap-1 text-sm text-emerald-600 font-medium hover:text-emerald-700 transition-colors group/link"
-                >
-                    続きを読む
-                    <ChevronRight className="w-4 h-4 group-hover/link:translate-x-1 transition-transform" />
-                </a>
-            </div>
+                    {/* タイトル */}
+                    <h3 className="font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-emerald-600 transition-colors">
+                        {news.title}
+                    </h3>
+
+                    {/* 詳細リンク（見た目だけ） */}
+                    <div className="mt-auto pt-2">
+                        <span className="inline-flex items-center gap-1 text-sm text-emerald-600 font-medium group-hover:text-emerald-700 transition-colors">
+                            続きを読む
+                            <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        </span>
+                    </div>
+                </div>
+            </a>
         </motion.article>
     );
 }

@@ -6,13 +6,34 @@ import NewsSection from '@/components/NewsSection';
 import Footer from '@/components/Footer';
 import { mockCourses, mockSpots, mockNews } from '@/lib/mock-microcms';
 
-export default function Home() {
+import { client } from '@/lib/client';
+import type { News } from '@/types';
+
+export default async function Home() {
+  let news: News[] = [];
+  try {
+    const data = await client.get({
+      endpoint: 'news',
+      queries: { limit: 3 },
+    });
+    news = data.contents;
+  } catch (error) {
+    console.error('Failed to fetch news:', error);
+    // Fallback to mock data
+    news = mockNews;
+  }
+
+  // Ensure we have data (if fetch returns empty but no error)
+  if (news.length === 0) {
+    news = mockNews;
+  }
+
   return (
     <>
       <Header />
       <main>
         <Hero />
-        <NewsSection news={mockNews} />
+        <NewsSection news={news} />
         <MainCourseSection />
         <SpotsSection spots={mockSpots} />
 

@@ -28,6 +28,7 @@ export interface News extends MicroCMSDate {
     publishDate: string;
     category: NewsCategory;
     thumbnail?: MicroCMSImage;
+    eyecatch?: MicroCMSImage;
     content: string; // HTML
 }
 

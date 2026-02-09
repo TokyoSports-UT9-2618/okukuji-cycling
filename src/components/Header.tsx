@@ -34,22 +34,22 @@ export default function Header() {
     return (
         <header
             className={cn(
-                'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
+                'fixed top-0 left-0 right-0 z-50 transition-all duration-300 h-[64px] md:h-[72px]',
                 isScrolled
                     ? 'bg-white/95 backdrop-blur-md shadow-lg'
                     : 'bg-transparent'
             )}
         >
-            <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between py-3 md:py-4 box-content">
-                    {/* Logo */}
-                    <a href="/" className="flex items-center group">
+            <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
+                <div className="relative flex items-center justify-end h-full">
+                    {/* Logo (Absolute & Overlay) */}
+                    <a href="/" className="absolute left-0 top-1/2 -translate-y-1/2 z-50 group">
                         <Image
                             src="/logo.png"
                             alt="Okukuji Kaido Cycling"
                             width={300}
                             height={75}
-                            className="w-[120px] h-auto md:w-[160px] object-contain"
+                            className="w-[120px] md:w-[150px] h-auto object-contain max-w-none"
                             priority
                         />
                     </a>
@@ -75,7 +75,7 @@ export default function Header() {
                     <button
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                         className={cn(
-                            'md:hidden p-2 rounded-lg min-w-[44px] min-h-[44px] flex items-center justify-center',
+                            'md:hidden p-2 rounded-lg min-w-[44px] min-h-[44px] flex items-center justify-center ml-auto',
                             isScrolled ? 'text-gray-900' : 'text-white'
                         )}
                         aria-label="メニューを開く"

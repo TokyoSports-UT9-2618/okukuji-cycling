@@ -19,7 +19,7 @@ export const mockNews: News[] = [
         title: '【2026/02/15】春のサイクリングイベント開催決定！',
         publishDate: '2026-02-15',
         category: 'イベント',
-        thumbnail: {
+        eyecatch: {
             url: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200',
             width: 1200,
             height: 630,
@@ -40,7 +40,7 @@ export const mockNews: News[] = [
         title: 'サイト全面リニューアルのお知らせ',
         publishDate: '2026-02-06',
         category: 'お知らせ',
-        thumbnail: {
+        eyecatch: {
             url: 'https://images.unsplash.com/photo-1517649763962-0c623066013b?w=1200',
             width: 1200,
             height: 630,
