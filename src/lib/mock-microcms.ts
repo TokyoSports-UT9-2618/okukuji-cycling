@@ -126,9 +126,9 @@ export const mockSpots: Spot[] = [
             height: 800,
         },
         latitude: 36.7681,
-        longitude: 140.3553,
         link: 'https://www.town.daigo.ibaraki.jp/',
         tel: '0295-72-0285',
+        facilities: ['cycle_rack', 'tools', 'pump', 'toilet'],
     },
     {
         id: 'spot-002',
@@ -145,6 +145,7 @@ export const mockSpots: Spot[] = [
         latitude: 36.7723,
         longitude: 140.3412,
         tel: '0295-72-6111',
+        facilities: ['store', 'toilet', 'lunch', 'water'],
     },
     {
         id: 'spot-003',

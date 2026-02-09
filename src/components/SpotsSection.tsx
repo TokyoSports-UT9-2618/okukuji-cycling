@@ -1,6 +1,7 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
     Bike,
     Wrench,
@@ -43,18 +44,39 @@ const categoryColors: Record<SpotCategory, string> = {
     コンビニ: 'bg-green-100 text-green-600',
 };
 
+// CMSのfacilitiesフィールド（英語キー）とSpotCategory（日本語ラベル）のマッピング
+const FACILITY_MAPPING: Record<string, SpotCategory> = {
+    cycle_rack: 'サイクルラック',
+    tools: '工具貸出',
+    pump: '空気入れ',
+    toilet: 'トイレ',
+    water: '給水',
+    lunch: 'ランチ',
+    cafe: 'カフェ',
+    onsen: '温泉',
+    store: 'コンビニ',
+};
+
 interface SpotCardProps {
     spot: Spot;
     index: number;
 }
 
 export function SpotCard({ spot, index }: SpotCardProps) {
+    // facilitiesがあれば日本語カテゴリに変換して優先使用、なければ既存のcategoriesを使用
+    const displayCategories = spot.facilities
+        ? spot.facilities
+            .map((f) => FACILITY_MAPPING[f])
+            .filter((c): c is SpotCategory => c !== undefined)
+        : spot.categories;
+
     return (
         <motion.article
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-30px' }}
-            transition={{ duration: 0.4, delay: index * 0.05 }}
+            layout
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.3 }}
             className="group relative bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 h-full flex flex-col"
         >
             {/* カード全体リンク（存在する場合のみ） */}
@@ -112,8 +134,9 @@ export function SpotCard({ spot, index }: SpotCardProps) {
 
                     {/* カテゴリアイコン */}
                     <div className="flex flex-wrap gap-2">
-                        {spot.categories.map((category) => {
+                        {displayCategories.map((category) => {
                             const Icon = categoryIcons[category];
+                            if (!Icon) return null;
                             return (
                                 <span
                                     key={category}
@@ -139,6 +162,20 @@ interface SpotsSectionProps {
 }
 
 export default function SpotsSection({ spots }: SpotsSectionProps) {
+    const [activeCategory, setActiveCategory] = useState<SpotCategory | null>(null);
+
+    // フィルタリングロジック
+    const filteredSpots = activeCategory
+        ? spots.filter((spot) => {
+            const categories = spot.facilities
+                ? spot.facilities
+                    .map((f) => FACILITY_MAPPING[f])
+                    .filter((c): c is SpotCategory => c !== undefined)
+                : spot.categories;
+            return categories.includes(activeCategory);
+        })
+        : spots;
+
     return (
         <section id="spots" className="py-20">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -159,11 +196,11 @@ export default function SpotsSection({ spots }: SpotsSectionProps) {
                     <p className="text-gray-600 max-w-2xl mx-auto">
                         休憩・補給・グルメ・温泉など、サイクリストに便利なスポットをご紹介。
                         <br className="hidden sm:block" />
-                        アイコンで設備をすぐに確認できます。
+                        アイコンをクリックして、設備で絞り込みができます。
                     </p>
                 </motion.div>
 
-                {/* カテゴリ凡例 */}
+                {/* カテゴリ凡例（フィルタボタン） */}
                 <motion.div
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
@@ -171,26 +208,47 @@ export default function SpotsSection({ spots }: SpotsSectionProps) {
                     transition={{ duration: 0.5, delay: 0.2 }}
                     className="flex flex-wrap justify-center gap-3 mb-10"
                 >
-                    {Object.entries(categoryIcons).map(([category, Icon]) => (
-                        <span
-                            key={category}
-                            className={cn(
-                                'inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full',
-                                categoryColors[category as SpotCategory]
-                            )}
-                        >
-                            <Icon className="w-3.5 h-3.5" />
-                            {category}
-                        </span>
-                    ))}
+                    {Object.entries(categoryIcons).map(([category, Icon]) => {
+                        const isActive = activeCategory === category;
+                        return (
+                            <button
+                                key={category}
+                                onClick={() =>
+                                    setActiveCategory(
+                                        isActive ? null : (category as SpotCategory)
+                                    )
+                                }
+                                className={cn(
+                                    'inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full transition-all duration-300 border',
+                                    isActive
+                                        ? 'ring-2 ring-emerald-500 ring-offset-2 border-transparent scale-105 shadow-md'
+                                        : 'border-transparent hover:bg-gray-100 hover:scale-105',
+                                    categoryColors[category as SpotCategory],
+                                    // 非アクティブ時は少し薄くする（フィルタ適用中のみ）
+                                    activeCategory && !isActive && 'opacity-40 grayscale-[0.5]'
+                                )}
+                            >
+                                <Icon className="w-3.5 h-3.5" />
+                                {category}
+                            </button>
+                        );
+                    })}
                 </motion.div>
 
-                {/* スポットグリッド */}
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {spots.map((spot, index) => (
-                        <SpotCard key={spot.id} spot={spot} index={index} />
-                    ))}
+                {/* スポットグリッド (AnimatePresenceでフィルタ変更時のアニメーション) */}
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 min-h-[400px]">
+                    <AnimatePresence mode="popLayout">
+                        {filteredSpots.map((spot, index) => (
+                            <SpotCard key={spot.id} spot={spot} index={index} />
+                        ))}
+                    </AnimatePresence>
                 </div>
+
+                {filteredSpots.length === 0 && (
+                    <div className="text-center text-gray-500 py-12">
+                        該当するスポットがありません。
+                    </div>
+                )}
             </div>
         </section>
     );
