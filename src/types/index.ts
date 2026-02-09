@@ -83,7 +83,7 @@ export interface Spot extends MicroCMSDate {
 // Access（アクセス）
 export interface Access extends MicroCMSDate {
     id: string;
-    type: 'train' | 'car';
+    category: 'train' | 'car';
     title: string;
     items?: string[] | string;
 }

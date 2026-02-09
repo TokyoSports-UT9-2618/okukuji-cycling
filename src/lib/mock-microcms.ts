@@ -121,7 +121,7 @@ export const mockAccess: Access[] = [
     {
         id: 'access-001',
         ...baseDate,
-        type: 'train',
+        category: 'train',
         title: '電車でお越しの方',
         items: [
             'JR水郡線「常陸大子駅」下車',
@@ -132,7 +132,7 @@ export const mockAccess: Access[] = [
     {
         id: 'access-002',
         ...baseDate,
-        type: 'car',
+        category: 'car',
         title: 'お車でお越しの方',
         items: [
             '常磐自動車道「那珂IC」から約50分',
