@@ -73,14 +73,11 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
                     </header>
 
                     {/* アイキャッチ画像 */}
-                    <div className="mb-10 w-full overflow-hidden rounded-xl bg-gray-100 border border-gray-100 flex items-center justify-center">
+                    <div className="mb-10 w-full aspect-video overflow-hidden rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center">
                         <img
                             src={displaySrc}
                             alt={news.title}
-                            className={cn(
-                                "w-full",
-                                isPlaceholder ? "object-contain h-64 p-2 opacity-90" : "object-cover h-auto max-h-[500px]"
-                            )}
+                            className="w-full h-full object-contain p-2"
                         />
                     </div>
 

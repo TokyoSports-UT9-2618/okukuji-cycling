@@ -46,14 +46,11 @@ export function NewsCard({ news, index }: NewsCardProps) {
                 className="block bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 hover:scale-[1.02] group h-full flex flex-col"
             >
                 {/* サムネイル */}
-                <div className="h-48 overflow-hidden bg-gray-100 flex items-center justify-center relative">
+                <div className="aspect-video w-full overflow-hidden bg-gray-50 flex items-center justify-center relative">
                     <img
                         src={displaySrc}
                         alt={news.title}
-                        className={cn(
-                            "w-full h-full transition-transform duration-500 group-hover:scale-105",
-                            isPlaceholder ? "object-contain p-2 opacity-90" : "object-cover"
-                        )}
+                        className="w-full h-full object-contain p-2 transition-transform duration-500 group-hover:scale-105"
                     />
                     {/* カテゴリ (画像の上に配置するデザインもよくあるが、今回は元の位置を維持するか、画像上がいいか？要望は特にないので元の位置に近い形で) */}
                 </div>
