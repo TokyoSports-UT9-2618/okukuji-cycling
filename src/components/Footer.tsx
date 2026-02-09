@@ -38,23 +38,32 @@ export default function Footer() {
                             </div>
                         </div>
                         <p className="text-gray-400 text-sm leading-relaxed mb-6">
-                            福島県奥久慈地方の雄大な自然を自転車で巡る、
+                            福島県東白川郡を中心に、奥久慈の自然を楽しむ
                             サイクルツーリズムの公式サイトです。
                         </p>
                         {/* 連絡先 */}
-                        <div className="space-y-2 text-sm text-gray-400">
-                            <p className="flex items-center gap-2">
-                                <MapPin className="w-4 h-4 text-emerald-400" />
-                                〒319-3526 茨城県久慈郡大子町大子
-                            </p>
-                            <p className="flex items-center gap-2">
-                                <Phone className="w-4 h-4 text-emerald-400" />
-                                0295-72-0285（大子町観光協会）
-                            </p>
-                            <p className="flex items-center gap-2">
-                                <Mail className="w-4 h-4 text-emerald-400" />
-                                info@okukuji-cycling.jp
-                            </p>
+                        <div className="space-y-4 text-sm text-gray-400">
+                            <div className="flex items-start gap-2">
+                                <MapPin className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-1" />
+                                <div>
+                                    <p>〒963-5405</p>
+                                    <p>福島県東白川郡塙町大字塙字大町3−21</p>
+                                </div>
+                            </div>
+                            <a
+                                href="tel:0247432112"
+                                className="flex items-center gap-2 hover:text-emerald-400 transition-colors"
+                            >
+                                <Phone className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                                0247-43-2112（東白川サイクリング推進会議事務局）
+                            </a>
+                            <a
+                                href="mailto:sinko@town.hanawa.fukushima.jp"
+                                className="flex items-center gap-2 hover:text-emerald-400 transition-colors"
+                            >
+                                <Mail className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                                sinko@town.hanawa.fukushima.jp
+                            </a>
                         </div>
                     </div>
 

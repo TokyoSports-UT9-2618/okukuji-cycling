@@ -89,8 +89,9 @@ export default async function Home() {
 
             <div className="grid md:grid-cols-2 gap-8">
               {Array.isArray(access) && access.map((item) => {
-                const isTrain = item.type?.toLowerCase().includes('train');
+                const isTrain = item.category?.toLowerCase().includes('train');
                 const Icon = isTrain ? Train : Car;
+                const iconColor = isTrain ? 'text-emerald-600' : 'text-rose-500';
                 // itemsが配列か文字列（リッチエディタ等）かを確認して正規化
                 const listItems = Array.isArray(item.items)
                   ? item.items
