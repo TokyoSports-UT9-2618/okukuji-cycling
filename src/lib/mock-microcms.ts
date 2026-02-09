@@ -1,4 +1,4 @@
-import type { News, Course, Spot, MicroCMSListResponse } from '@/types';
+import type { News, Course, Spot, Access, MicroCMSListResponse } from '@/types';
 
 // ダミー日時
 const now = new Date().toISOString();
@@ -115,6 +115,34 @@ export const mockCourses: Course[] = [
 export const mockSpots: Spot[] = [];
 
 // ======================
+// Access モックデータ
+// ======================
+export const mockAccess: Access[] = [
+    {
+        id: 'access-001',
+        ...baseDate,
+        type: 'train',
+        title: '電車でお越しの方',
+        items: [
+            'JR水郡線「常陸大子駅」下車',
+            '水戸駅から約1時間30分',
+            '郡山駅から約1時間40分',
+        ],
+    },
+    {
+        id: 'access-002',
+        ...baseDate,
+        type: 'car',
+        title: 'お車でお越しの方',
+        items: [
+            '常磐自動車道「那珂IC」から約50分',
+            '東北自動車道「矢板IC」から約60分',
+            '無料駐車場あり（大子駅前・袋田の滝）',
+        ],
+    },
+];
+
+// ======================
 // データ取得関数（モック）
 // ======================
 export async function getNews(): Promise<MicroCMSListResponse<News>> {
@@ -154,4 +182,13 @@ export async function getSpots(): Promise<MicroCMSListResponse<Spot>> {
 
 export async function getSpotById(id: string): Promise<Spot | null> {
     return mockSpots.find((spot) => spot.id === id) || null;
+}
+
+export async function getAccess(): Promise<MicroCMSListResponse<Access>> {
+    return {
+        contents: mockAccess,
+        totalCount: mockAccess.length,
+        offset: 0,
+        limit: 10,
+    };
 }

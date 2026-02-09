@@ -79,3 +79,11 @@ export interface Spot extends MicroCMSDate {
     facilities?: string[];
     show_on_top?: boolean;
 }
+
+// Access（アクセス）
+export interface Access extends MicroCMSDate {
+    id: string;
+    type: 'train' | 'car';
+    title: string;
+    items: string[];
+}
