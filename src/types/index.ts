@@ -75,6 +75,7 @@ export interface Spot extends MicroCMSDate {
     longitude?: number;
     link?: string;
     tel?: string;
+    address?: string;
     facilities?: string[];
     show_on_top?: boolean;
 }

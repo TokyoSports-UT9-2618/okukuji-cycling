@@ -122,8 +122,23 @@ export function SpotCard({ spot, index }: { spot: Spot; index: number }) {
                     {spot.description || spot.summary}
                 </p>
 
-                {/* 電話番号 & カテゴリ */}
-                <div className="mt-auto space-y-3">
+                {/* 電話番号 & カテゴリ & 住所 */}
+                <div className="mt-auto space-y-2">
+                    {/* 住所（Google Mapsリンク） */}
+                    {spot.address && (
+                        <div className="flex items-start">
+                            <a
+                                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(spot.address)}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="relative z-20 inline-flex items-start gap-1.5 text-sm text-gray-600 hover:text-emerald-600 font-medium transition-colors p-1 -ml-1 rounded hover:bg-emerald-50"
+                            >
+                                <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                                <span className="break-all">{spot.address}</span>
+                            </a>
+                        </div>
+                    )}
+
                     {/* 電話番号（リンクの上に配置するため z-20） */}
                     {spot.tel && (
                         <div className="flex items-center">
@@ -138,7 +153,7 @@ export function SpotCard({ spot, index }: { spot: Spot; index: number }) {
                     )}
 
                     {/* カテゴリアイコン */}
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-2 pt-1">
                         {displayCategories.map((category) => {
                             const Icon = categoryIcons[category];
                             if (!Icon) return null;
