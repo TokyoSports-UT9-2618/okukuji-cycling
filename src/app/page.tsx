@@ -70,7 +70,7 @@ export default async function Home() {
         <Hero />
         <NewsSection news={news} />
         <MainCourseSection course={mainCourse} />
-        <SpotsSection spots={spots} viewAllLink="/spots" />
+        <SpotsSection spots={spots} viewAllLink="/spots" className="bg-gray-50" />
 
         {/* Access Section */}
         <section id="access" className="py-20 bg-gray-900">

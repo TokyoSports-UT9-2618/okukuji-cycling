@@ -79,7 +79,7 @@ export function SpotCard({ spot, index }: { spot: Spot; index: number }) {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.3 }}
-            className="group relative bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 h-full flex flex-col"
+            className="group relative bg-white rounded-xl overflow-hidden border border-gray-200 shadow-lg hover:shadow-xl transition-all duration-300 h-full flex flex-col"
         >
             {/* カード全体リンク（存在する場合のみ） */}
             {spot.link && (
@@ -203,13 +203,13 @@ export default function SpotsSection({ spots, viewAllLink, className }: SpotsSec
                     transition={{ duration: 0.5 }}
                     className="text-center mb-12"
                 >
-                    <p className="text-emerald-400 font-medium mb-2 tracking-widest text-sm">
+                    <p className="text-emerald-600 font-medium mb-2 tracking-widest text-sm">
                         CYCLING SPOTS
                     </p>
-                    <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                    <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
                         スポット情報
                     </h2>
-                    <p className="text-gray-300 max-w-2xl mx-auto">
+                    <p className="text-slate-600 max-w-2xl mx-auto">
                         休憩・補給・グルメ・温泉など、サイクリストに便利なスポットをご紹介。
                         <br className="hidden sm:block" />
                         アイコンをクリックして、設備で絞り込みができます。
