@@ -160,7 +160,13 @@ export default function Hero() {
                 initial={prefersReducedMotion ? {} : { opacity: 0 }}
                 animate={prefersReducedMotion ? {} : { opacity: 1 }}
                 transition={{ delay: 2, duration: 0.5 }}
-                className="absolute bottom-8 left-1/2 -translate-x-1/2"
+                className="absolute bottom-8 left-1/2 -translate-x-1/2 cursor-pointer z-20 hover:scale-110 transition-transform"
+                onClick={() => {
+                    const newsSection = document.getElementById('news');
+                    if (newsSection) {
+                        newsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }}
             >
                 <motion.div
                     animate={prefersReducedMotion ? {} : { y: [0, 8, 0] }}

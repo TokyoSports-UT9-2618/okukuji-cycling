@@ -68,8 +68,12 @@ export default async function Home() {
       <Header />
       <main>
         <Hero />
-        <NewsSection news={news} />
-        <MainCourseSection course={mainCourse} />
+        <div id="news" className="scroll-mt-24">
+          <NewsSection news={news} />
+        </div>
+        <div id="courses" className="scroll-mt-24">
+          <MainCourseSection course={mainCourse} />
+        </div>
         <SpotsSection spots={spots} viewAllLink="/spots" className="bg-gray-50" />
 
         {/* Access Section */}
