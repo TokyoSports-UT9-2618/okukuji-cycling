@@ -9,9 +9,11 @@ const footerLinks = {
         { label: 'アクセス', href: '/#access' },
     ],
     external: [
-        { label: '大子町観光協会', href: 'https://www.daigo-kanko.jp/', external: true },
-        { label: '茨城県観光情報', href: 'https://www.ibarakiguide.jp/', external: true },
-        { label: '袋田の滝', href: 'https://www.daigo-kanko.jp/?page_id=2873', external: true },
+        { label: '棚倉町活性化・観光物産協会', href: 'https://www.town.tanagura.fukushima.jp/kasseika-kannkoubussann/', external: true },
+        { label: '塙町観光協会', href: 'https://www.kanko-hanawa.com/', external: true },
+        { label: 'Cycling Fukushima', href: 'https://www.pref.fukushima.lg.jp/site/cycling/index-2.html', external: true },
+        { label: 'Cycle Trip Fukushima', href: 'https://fuku-2.net/', external: true },
+        { label: 'しらかわエリアナビ', href: 'https://shirakawa-area-navi.jp/', external: true },
     ],
 };
 
@@ -20,9 +22,9 @@ export default function Footer() {
         <footer className="bg-gray-900 text-white">
             {/* メインフッター */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
+                <div className="grid md:grid-cols-3 gap-8">
                     {/* ブランド */}
-                    <div className="lg:col-span-1">
+                    <div>
                         <div className="flex items-center gap-2 mb-4">
                             <Bike className="w-8 h-8 text-emerald-400" />
                             <div>
@@ -61,7 +63,7 @@ export default function Footer() {
                     </div>
 
                     {/* サイトについて */}
-                    <div>
+                    <div className="md:justify-self-center">
                         <h3 className="font-bold text-white mb-4">サイトマップ</h3>
                         <ul className="space-y-2">
                             {footerLinks.about.map((link) => (
