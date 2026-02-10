@@ -83,7 +83,7 @@ export default async function Home() {
                 アクセス
               </h2>
               <p className="text-gray-400 max-w-2xl mx-auto">
-                常陸大子駅を拠点としたアクセス情報
+                奥久慈街道（福島県東白川エリア）へのアクセス情報
               </p>
             </div>
 
