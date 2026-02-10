@@ -33,14 +33,7 @@ export default async function SpotsPage() {
             <Header />
             <main className="pt-24 pb-20 bg-gray-50 min-h-screen">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="mb-12 text-center">
-                        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 mt-8">
-                            全スポット一覧
-                        </h1>
-                        <p className="text-gray-600">
-                            奥久慈街道エリアのすべてのスポットをご覧いただけます。
-                        </p>
-                    </div>
+
 
                     {/* Reuse SpotsSection but hide header? Or just let it be. 
               SpotsSection has a hardcoded header. 

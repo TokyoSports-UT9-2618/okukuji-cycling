@@ -79,7 +79,7 @@ export function SpotCard({ spot, index }: { spot: Spot; index: number }) {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.3 }}
-            className="group relative bg-white rounded-xl overflow-hidden border border-gray-200 shadow-lg hover:shadow-xl transition-all duration-300 h-full flex flex-col"
+            className="group relative bg-white rounded-xl overflow-hidden border border-gray-100 shadow-md hover:shadow-lg transition-all duration-300 h-full flex flex-col"
         >
             {/* カード全体リンク（存在する場合のみ） */}
             {spot.link && (

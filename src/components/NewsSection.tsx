@@ -44,7 +44,7 @@ export function NewsCard({ news, index }: NewsCardProps) {
         >
             <Link
                 href={`/news/${news.id}`}
-                className="block bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 hover:scale-[1.02] group h-full flex flex-col"
+                className="block bg-white rounded-xl overflow-hidden border border-gray-100 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-[1.02] group h-full flex flex-col"
             >
                 {/* サムネイル */}
                 <div className="aspect-video w-full overflow-hidden bg-gray-50 flex items-center justify-center relative">

@@ -34,15 +34,15 @@ export default async function NewsPage() {
             <Header />
             <main className="min-h-screen pt-20">
                 {/* ページヘッダー */}
-                <section className="bg-gradient-to-r from-emerald-600 to-teal-600 py-16">
+                <section className="bg-slate-900 py-20">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                        <p className="text-emerald-100 font-medium mb-2 tracking-widest text-sm">
+                        <p className="text-emerald-400 font-medium mb-2 tracking-widest text-sm">
                             NEWS & TOPICS
                         </p>
                         <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
                             お知らせ
                         </h1>
-                        <p className="text-emerald-100 max-w-2xl mx-auto">
+                        <p className="text-gray-300 max-w-2xl mx-auto">
                             イベント情報、交通規制、メディア掲載など最新情報をお届けします。
                         </p>
                     </div>
