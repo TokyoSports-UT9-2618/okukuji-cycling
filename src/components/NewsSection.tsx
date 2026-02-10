@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Calendar, ChevronRight, Tag } from 'lucide-react';
 import type { News, NewsCategory } from '@/types';
@@ -41,7 +42,7 @@ export function NewsCard({ news, index }: NewsCardProps) {
             transition={{ duration: 0.4, delay: index * 0.1 }}
             className="h-full"
         >
-            <a
+            <Link
                 href={`/news/${news.id}`}
                 className="block bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 hover:scale-[1.02] group h-full flex flex-col"
             >
@@ -87,7 +88,7 @@ export function NewsCard({ news, index }: NewsCardProps) {
                         </span>
                     </div>
                 </div>
-            </a>
+            </Link>
         </motion.article>
     );
 }
@@ -137,13 +138,13 @@ export default function NewsSection({ news }: NewsSectionProps) {
                     transition={{ duration: 0.5, delay: 0.3 }}
                     className="text-center"
                 >
-                    <a
+                    <Link
                         href="/news"
                         className="inline-flex items-center gap-2 bg-white border border-emerald-500 text-emerald-600 font-medium px-8 py-3 rounded-full hover:bg-emerald-500 hover:text-white transition-all shadow-sm hover:shadow-md group"
                     >
                         お知らせ一覧を見る
                         <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </a>
+                    </Link>
                 </motion.div>
             </div>
         </section>
