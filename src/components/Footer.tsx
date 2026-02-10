@@ -4,16 +4,9 @@ import { Bike, Mail, Phone, MapPin, ExternalLink } from 'lucide-react';
 
 const footerLinks = {
     about: [
-        { label: '奥久慈街道サイクリングとは', href: '/about' },
-        { label: 'モデルコース', href: '#courses' },
-        { label: 'スポット情報', href: '#spots' },
-        { label: 'アクセス', href: '#access' },
-    ],
-    support: [
-        { label: 'お問い合わせ', href: '/contact' },
-        { label: 'よくある質問', href: '/faq' },
-        { label: '安全ガイド', href: '/safety' },
-        { label: 'レンタサイクル', href: '/rental' },
+        { label: 'モデルコース', href: '/#courses' },
+        { label: 'スポット情報', href: '/spots' },
+        { label: 'アクセス', href: '/#access' },
     ],
     external: [
         { label: '大子町観光協会', href: 'https://www.daigo-kanko.jp/', external: true },
@@ -27,7 +20,7 @@ export default function Footer() {
         <footer className="bg-gray-900 text-white">
             {/* メインフッター */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
                     {/* ブランド */}
                     <div className="lg:col-span-1">
                         <div className="flex items-center gap-2 mb-4">
@@ -69,26 +62,9 @@ export default function Footer() {
 
                     {/* サイトについて */}
                     <div>
-                        <h3 className="font-bold text-white mb-4">サイトについて</h3>
+                        <h3 className="font-bold text-white mb-4">サイトマップ</h3>
                         <ul className="space-y-2">
                             {footerLinks.about.map((link) => (
-                                <li key={link.href}>
-                                    <a
-                                        href={link.href}
-                                        className="text-gray-400 hover:text-emerald-400 transition-colors text-sm"
-                                    >
-                                        {link.label}
-                                    </a>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-
-                    {/* サポート */}
-                    <div>
-                        <h3 className="font-bold text-white mb-4">サポート</h3>
-                        <ul className="space-y-2">
-                            {footerLinks.support.map((link) => (
                                 <li key={link.href}>
                                     <a
                                         href={link.href}
@@ -104,6 +80,21 @@ export default function Footer() {
                     {/* 関連リンク */}
                     <div>
                         <h3 className="font-bold text-white mb-4">関連リンク</h3>
+                        <ul className="space-y-2">
+                            {footerLinks.external.map((link) => (
+                                <li key={link.href}>
+                                    <a
+                                        href={link.href}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="text-gray-400 hover:text-emerald-400 transition-colors text-sm inline-flex items-center gap-1"
+                                    >
+                                        {link.label}
+                                        <ExternalLink className="w-3 h-3" />
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
                     </div>
                 </div>
             </div>
