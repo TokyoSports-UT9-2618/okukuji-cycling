@@ -31,10 +31,23 @@ export default async function SpotsPage() {
     return (
         <>
             <Header />
-            <main className="pt-24 pb-20 bg-gray-50 min-h-screen">
+            <main className="min-h-screen bg-gray-50">
+                {/* ページヘッダー (NewsPageと統一) */}
+                <section className="bg-slate-900 pt-32 pb-20">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                        <p className="text-emerald-400 font-medium mb-2 tracking-widest text-sm">
+                            CYCLING SPOTS
+                        </p>
+                        <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                            スポット情報
+                        </h1>
+                        <p className="text-slate-300 max-w-2xl mx-auto">
+                            奥久慈街道エリアのすべてのスポットをご覧いただけます。
+                        </p>
+                    </div>
+                </section>
+
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-
                     {/* Reuse SpotsSection but hide header? Or just let it be. 
               SpotsSection has a hardcoded header. 
               Ideally I should add a prop to hide header or customize it.
@@ -45,7 +58,7 @@ export default async function SpotsPage() {
               I will refrain from adding the h1 above and let SpotsSection handle it, OR I will modify SpotsSection to accept a title.
               Since I am already editing SpotsSection, I will add `title` prop.
            */}
-                    <SpotsSection spots={spots} className="py-0" />
+                    <SpotsSection spots={spots} className="py-12" hideHeader={true} />
                 </div>
             </main>
             <Footer />

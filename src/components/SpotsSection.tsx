@@ -177,7 +177,7 @@ export function SpotCard({ spot, index }: { spot: Spot; index: number }) {
     );
 }
 
-export default function SpotsSection({ spots, viewAllLink, className }: SpotsSectionProps) {
+export default function SpotsSection({ spots, viewAllLink, className, hideHeader = false }: SpotsSectionProps) {
     const [activeCategory, setActiveCategory] = useState<SpotCategory | null>(null);
 
     // フィルタリングロジック
@@ -196,25 +196,27 @@ export default function SpotsSection({ spots, viewAllLink, className }: SpotsSec
         <section id="spots" className={cn("py-20", className)}>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* セクションヘッダー */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5 }}
-                    className="text-center mb-12"
-                >
-                    <p className="text-emerald-600 font-medium mb-2 tracking-widest text-sm">
-                        CYCLING SPOTS
-                    </p>
-                    <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-                        スポット情報
-                    </h2>
-                    <p className="text-slate-600 max-w-2xl mx-auto">
-                        休憩・補給・グルメ・温泉など、サイクリストに便利なスポットをご紹介。
-                        <br className="hidden sm:block" />
-                        アイコンをクリックして、設備で絞り込みができます。
-                    </p>
-                </motion.div>
+                {!hideHeader && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5 }}
+                        className="text-center mb-12"
+                    >
+                        <p className="text-emerald-600 font-medium mb-2 tracking-widest text-sm">
+                            CYCLING SPOTS
+                        </p>
+                        <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+                            スポット情報
+                        </h2>
+                        <p className="text-slate-600 max-w-2xl mx-auto">
+                            休憩・補給・グルメ・温泉など、サイクリストに便利なスポットをご紹介。
+                            <br className="hidden sm:block" />
+                            アイコンをクリックして、設備で絞り込みができます。
+                        </p>
+                    </motion.div>
+                )}
 
                 {/* カテゴリ凡例（フィルタボタン） */}
                 <motion.div

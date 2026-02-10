@@ -35,7 +35,9 @@ export default function Header() {
         <header
             className={cn(
                 'fixed top-0 left-0 right-0 z-50 transition-all duration-300 h-[64px] md:h-[72px]',
-                'bg-white/90 backdrop-blur-md shadow-sm'
+                isScrolled
+                    ? 'bg-white/90 backdrop-blur-md shadow-sm'
+                    : 'bg-transparent'
             )}
         >
             <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
@@ -60,7 +62,7 @@ export default function Header() {
                                     href={item.href}
                                     className={cn(
                                         'text-sm font-medium transition-colors hover:text-emerald-500',
-                                        'text-slate-900'
+                                        isScrolled ? 'text-slate-900' : 'text-white'
                                     )}
                                 >
                                     {item.label}
@@ -74,7 +76,7 @@ export default function Header() {
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                         className={cn(
                             'md:hidden p-2 rounded-lg min-w-[44px] min-h-[44px] flex items-center justify-center ml-auto',
-                            'text-slate-900'
+                            isScrolled ? 'text-slate-900' : 'text-white'
                         )}
                         aria-label="メニューを開く"
                     >
