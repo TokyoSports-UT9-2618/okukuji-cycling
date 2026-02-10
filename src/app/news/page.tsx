@@ -3,13 +3,32 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { mockNews } from '@/lib/mock-microcms';
 import { NewsCard } from '@/components/NewsSection';
+import { client } from '@/lib/client';
+import type { News } from '@/types';
 
 export const metadata: Metadata = {
     title: 'お知らせ | 奥久慈街道サイクリング',
     description: 'イベント情報、交通規制、メディア掲載など、奥久慈街道サイクリングの最新情報をお届けします。',
 };
 
-export default function NewsPage() {
+export default async function NewsPage() {
+    let news: News[] = [];
+
+    try {
+        const data = await client.getList({
+            endpoint: 'news',
+        });
+        news = data.contents;
+    } catch (error) {
+        console.error('Failed to fetch news:', error);
+        news = mockNews;
+    }
+
+    // Ensure we have data (fallback if empty array returned explicitly or error occurred)
+    if (news.length === 0) {
+        news = mockNews;
+    }
+
     return (
         <>
             <Header />
@@ -33,9 +52,9 @@ export default function NewsPage() {
                 <section className="py-16 bg-gray-50">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {mockNews.map((news, index) => (
-                                <div key={news.id} className="w-full">
-                                    <NewsCard news={news} index={index} />
+                            {news.map((item, index) => (
+                                <div key={item.id} className="w-full h-full">
+                                    <NewsCard news={item} index={index} />
                                 </div>
                             ))}
                         </div>
