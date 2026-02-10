@@ -7,10 +7,21 @@ import { client } from '@/lib/client';
 import { cn } from '@/lib/utils';
 
 // Static Export (Optional, keep if needed for build, but here we focus on simple render)
-export function generateStaticParams() {
-    return mockNews.map((news) => ({
-        id: news.id,
-    }));
+// Static Export: Fetch all IDs from microCMS
+export async function generateStaticParams() {
+    try {
+        const data = await client.getList({
+            endpoint: 'news',
+            queries: { fields: 'id', limit: 100 },
+        });
+        return data.contents.map((content) => ({
+            id: content.id,
+        }));
+    } catch (error) {
+        console.error('generateStaticParams error:', error);
+        // API failure fallback (empty or mock if absolutely needed, but user asked to remove mock dependency for generating params)
+        return [];
+    }
 }
 
 // 日付フォーマット
@@ -35,6 +46,7 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
     try {
         news = await client.get({ endpoint: 'news', contentId: id });
     } catch (e) {
+        console.warn(`API fetch failed for ${id}, falling back to mock.`);
         news = await getNewsById(id);
     }
 
