@@ -62,6 +62,7 @@ interface SpotsSectionProps {
     spots: Spot[];
     viewAllLink?: string;
     className?: string;
+    hideHeader?: boolean;
 }
 
 export function SpotCard({ spot, index }: { spot: Spot; index: number }) {
