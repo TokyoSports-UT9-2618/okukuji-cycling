@@ -3,6 +3,7 @@ import Hero from '@/components/Hero';
 import MainCourseSection from '@/components/MainCourseSection';
 import SpotsSection from '@/components/SpotsSection';
 import NewsSection from '@/components/NewsSection';
+import GallerySection from '@/components/GallerySection';
 import Footer from '@/components/Footer';
 import { mockCourses, mockNews, mockAccess } from '@/lib/mock-microcms';
 import { Train, Car, ChevronRight } from 'lucide-react';
@@ -43,6 +44,7 @@ export default async function Home() {
     // Access Fetch
     const accessData = await client.get({
       endpoint: 'access',
+      queries: { limit: 50 }, // Fetch all access info
     });
     access = accessData.contents;
 
@@ -75,6 +77,7 @@ export default async function Home() {
           <MainCourseSection course={mainCourse} />
         </div>
         <SpotsSection spots={spots} viewAllLink="/spots" className="bg-gray-50" />
+        <GallerySection />
 
         {/* Access Section */}
         <section id="access" className="py-20 bg-gray-900">
