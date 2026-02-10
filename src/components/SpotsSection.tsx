@@ -110,7 +110,7 @@ export function SpotCard({ spot, index }: { spot: Spot; index: number }) {
             )}
 
             {/* コンテンツ */}
-            <div className="p-4 flex flex-col flex-grow">
+            <div className="p-6 flex flex-col flex-grow bg-white">
                 <h3 className={cn(
                     "font-bold text-lg mb-2 transition-colors",
                     "text-gray-900", // 明示的に黒を指定
@@ -118,7 +118,7 @@ export function SpotCard({ spot, index }: { spot: Spot; index: number }) {
                 )}>
                     {spot.title}
                 </h3>
-                <p className="text-gray-600 text-sm mb-3 line-clamp-2">
+                <p className="text-gray-800 text-sm mb-3 line-clamp-2">
                     {spot.description || spot.summary}
                 </p>
 
@@ -131,7 +131,7 @@ export function SpotCard({ spot, index }: { spot: Spot; index: number }) {
                                 href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(spot.address)}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="relative z-20 inline-flex items-start gap-1.5 text-sm text-gray-600 hover:text-emerald-600 font-medium transition-colors p-1 -ml-1 rounded hover:bg-emerald-50"
+                                className="relative z-20 inline-flex items-start gap-1.5 text-sm text-gray-800 hover:text-emerald-600 font-medium transition-colors p-1 -ml-1 rounded hover:bg-emerald-50"
                             >
                                 <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0" />
                                 <span className="break-all">{spot.address}</span>
@@ -144,7 +144,7 @@ export function SpotCard({ spot, index }: { spot: Spot; index: number }) {
                         <div className="flex items-center">
                             <a
                                 href={`tel:${spot.tel}`}
-                                className="relative z-20 inline-flex items-center gap-1.5 text-sm text-gray-600 hover:text-emerald-600 font-medium transition-colors p-1 -ml-1 rounded hover:bg-emerald-50"
+                                className="relative z-20 inline-flex items-center gap-1.5 text-sm text-gray-800 hover:text-emerald-600 font-medium transition-colors p-1 -ml-1 rounded hover:bg-emerald-50"
                             >
                                 <Phone className="w-4 h-4" />
                                 <span>{spot.tel}</span>

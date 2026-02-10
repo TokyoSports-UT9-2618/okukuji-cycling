@@ -111,7 +111,7 @@ export default async function Home() {
                       <Icon className="w-6 h-6 text-gray-700" />
                       {item.title}
                     </h3>
-                    <ul className="space-y-3 text-gray-600">
+                    <ul className="space-y-3 text-gray-800">
                       {listItems.map((listItem, index) => (
                         <li key={index} className="flex items-start gap-2">
                           <ChevronRight className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-1" />
