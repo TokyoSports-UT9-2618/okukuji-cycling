@@ -52,62 +52,10 @@ export const mockNews: News[] = [
 // ======================
 // Courses モックデータ
 // ======================
-export const mockCourses: Course[] = [
-    {
-        id: 'course-001',
-        ...baseDate,
-        name: '久慈川源流周遊コース',
-        summary: '久慈川の源流を辿る、原風景を満喫できる中級者向けコース。四季折々の渓谷美が楽しめます。',
-        distance: 52.4,
-        elevation: 680,
-        duration: '半日',
-        difficulty: '★3（中級）',
-        seasons: ['春', '秋'],
-        mainImage: {
-            url: 'https://images.unsplash.com/photo-1541625602330-2277a4c46182?w=1920',
-            width: 1920,
-            height: 1080,
-        },
-        description: '久慈川の源流域を巡る本格的なサイクリングコース。序盤は平坦な河川沿いを走り、中盤から徐々に標高を上げていきます。途中、地元の名産品を販売する道の駅や、歴史ある温泉施設に立ち寄ることができます。秋は紅葉、春は山桜が美しいルートです。',
-        caution: '一部狭い道あり。雨天後は路面が滑りやすいため注意。携帯電話の電波が届かない区間あり。',
-    },
-    {
-        id: 'course-002',
-        ...baseDate,
-        name: '袋田の滝グルメライド',
-        summary: '日本三名瀑・袋田の滝を目指すコース。地元グルメスポットを巡りながら走れます。',
-        distance: 35.2,
-        elevation: 420,
-        duration: '3時間',
-        difficulty: '★2（初心者）',
-        seasons: ['春', '夏', '秋'],
-        mainImage: {
-            url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1920',
-            width: 1920,
-            height: 1080,
-        },
-        description: '袋田の滝を目的地とした初心者でも楽しめるコース。途中、常陸秋そばの名店や、リンゴ農園、地元の直売所など、グルメスポットが点在しています。袋田の滝では四季折々の絶景を堪能できます。',
-        caution: '観光シーズンは混雑あり。駐車場から滝までは徒歩10分。自転車は駐輪場に停めてください。',
-    },
-    {
-        id: 'course-003',
-        ...baseDate,
-        name: '里山ファミリーコース',
-        summary: '家族で楽しめる平坦なコース。田園風景の中をのんびり走れます。サイクルラックも充実。',
-        distance: 18.5,
-        elevation: 120,
-        duration: '2時間',
-        difficulty: '★1（家族向け）',
-        seasons: ['春', '夏', '秋', '冬'],
-        mainImage: {
-            url: 'https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=1920',
-            width: 1920,
-            height: 1080,
-        },
-        description: 'お子様連れのファミリーにおすすめの平坦コース。田んぼや畑が広がるのどかな里山風景の中を走ります。途中の休憩スポットにはサイクルラックやトイレが完備されており、安心してサイクリングを楽しめます。',
-        caution: '農繁期（田植え・稲刈り時期）は農作業車両に注意。',
-    },
-];
+// ======================
+// Courses モックデータ
+// ======================
+export const mockCourses: Course[] = [];
 
 // ======================
 // Spots モックデータ

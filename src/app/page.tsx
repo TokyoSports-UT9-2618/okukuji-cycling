@@ -5,7 +5,12 @@ import SpotsSection from '@/components/SpotsSection';
 import NewsSection from '@/components/NewsSection';
 import GallerySection from '@/components/GallerySection';
 import Footer from '@/components/Footer';
-import { mockCourses, mockNews, mockAccess } from '@/lib/mock-microcms';
+import { mockNews, mockAccess } from '@/lib/mock-microcms';
+import { processGalleryData } from '@/lib/galleryLogic';
+import { Train, Car, ChevronRight } from 'lucide-react';
+
+import { client } from '@/lib/client';
+import type { News, Course, Spot, Access, Gallery } from '@/types';
 import { processGalleryData } from '@/lib/galleryLogic';
 import { Train, Car, ChevronRight } from 'lucide-react';
 
@@ -19,7 +24,7 @@ export default async function Home() {
   let spots: Spot[] = [];
   let access: Access[] = [];
   let gallery: Gallery[] = [];
-  let mainCourse: Course = mockCourses[0];
+  let mainCourse: Course | null = null;
 
   try {
     // News Fetch
@@ -90,9 +95,11 @@ export default async function Home() {
         <div id="news" className="scroll-mt-24">
           <NewsSection news={news} />
         </div>
-        <div id="courses" className="scroll-mt-24">
-          <MainCourseSection course={mainCourse} />
-        </div>
+        {mainCourse && (
+          <div id="courses" className="scroll-mt-24">
+            <MainCourseSection course={mainCourse} />
+          </div>
+        )}
         <SpotsSection spots={spots} viewAllLink="/spots" className="bg-gray-50" />
         <GallerySection images={gallery} />
 
