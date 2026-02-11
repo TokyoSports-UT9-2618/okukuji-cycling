@@ -5,16 +5,20 @@ import SpotsSection from '@/components/SpotsSection';
 import NewsSection from '@/components/NewsSection';
 import GallerySection from '@/components/GallerySection';
 import Footer from '@/components/Footer';
-import { mockCourses, mockNews, mockAccess } from '@/lib/mock-microcms';
+import { mockCourses, mockNews, mockAccess, mockGallery } from '@/lib/mock-microcms';
+import { processGalleryData } from '@/lib/galleryLogic';
 import { Train, Car, ChevronRight } from 'lucide-react';
 
 import { client } from '@/lib/client';
-import type { News, Course, Spot, Access } from '@/types';
+import type { News, Course, Spot, Access, Gallery } from '@/types';
+
+export const revalidate = 0; // Ensure random shuffle on every request
 
 export default async function Home() {
   let news: News[] = [];
   let spots: Spot[] = [];
   let access: Access[] = [];
+  let gallery: Gallery[] = [];
   let mainCourse: Course = mockCourses[0];
 
   try {
@@ -41,6 +45,13 @@ export default async function Home() {
     });
     spots = spotsData.contents;
 
+    // Gallery Fetch
+    const galleryData = await client.get({
+      endpoint: 'gallery',
+      queries: { limit: 50 },
+    });
+    gallery = processGalleryData(galleryData.contents);
+
     // Access Fetch
     const accessData = await client.get({
       endpoint: 'access',
@@ -55,6 +66,8 @@ export default async function Home() {
     // Spots fallback: empty (Requirement: Delete mock data usage)
     // Access fallback
     access = mockAccess;
+    // Gallery fallback
+    gallery = processGalleryData(mockGallery);
   }
 
   // Ensure we have data (if fetch returns empty but no error)
@@ -63,6 +76,9 @@ export default async function Home() {
   }
   if (access.length === 0) {
     access = mockAccess;
+  }
+  if (gallery.length === 0) {
+    gallery = processGalleryData(mockGallery);
   }
 
   return (
@@ -77,7 +93,7 @@ export default async function Home() {
           <MainCourseSection course={mainCourse} />
         </div>
         <SpotsSection spots={spots} viewAllLink="/spots" className="bg-gray-50" />
-        <GallerySection />
+        <GallerySection images={gallery} />
 
         {/* Access Section */}
         <section id="access" className="py-20 bg-gray-900">
