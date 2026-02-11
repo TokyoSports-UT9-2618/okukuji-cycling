@@ -125,8 +125,18 @@ export const getGridSpanClass = (item: Gallery, index: number): string => {
 export const getOptimizedGalleryLayout = (images: Gallery[]): { image: Gallery; spanClass: string }[] => {
     if (!images || images.length === 0) return [];
 
-    return images.map((image, index) => ({
-        image,
-        spanClass: getGridSpanClass(image, index),
-    }));
+    const total = images.length;
+    return images.map((image, index) => {
+        let spanClass = getGridSpanClass(image, index);
+
+        // Safety: Force the last item to be full width to catch any layout gaps and ensure visibility
+        if (index === total - 1) {
+            spanClass = 'col-span-2 md:col-span-full row-span-1';
+        }
+
+        return {
+            image,
+            spanClass,
+        };
+    });
 };
