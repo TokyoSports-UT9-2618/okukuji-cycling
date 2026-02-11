@@ -8,12 +8,6 @@ import Footer from '@/components/Footer';
 import { mockNews, mockAccess } from '@/lib/mock-microcms';
 import { processGalleryData } from '@/lib/galleryLogic';
 import { Train, Car, ChevronRight } from 'lucide-react';
-
-import { client } from '@/lib/client';
-import type { News, Course, Spot, Access, Gallery } from '@/types';
-import { processGalleryData } from '@/lib/galleryLogic';
-import { Train, Car, ChevronRight } from 'lucide-react';
-
 import { client } from '@/lib/client';
 import type { News, Course, Spot, Access, Gallery } from '@/types';
 
