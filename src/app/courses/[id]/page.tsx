@@ -74,12 +74,10 @@ export default async function CourseDetailPage({ params }: CourseDetailPageProps
             <Header />
             <main className="min-h-screen">
                 {/* Hero */}
-                <section className="relative h-[50vh] min-h-[400px]">
-                    <div
-                        className="absolute inset-0 bg-cover bg-center"
-                        style={{ backgroundImage: `url(${course.mainImage.url})` }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+                {/* Hero */}
+                <section className="relative h-[50vh] min-h-[400px] bg-gray-900">
+                    <div className="absolute inset-0 bg-gradient-to-br from-emerald-900/40 to-black/60" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
 
                     <div className="absolute inset-0 flex items-end">
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 w-full">

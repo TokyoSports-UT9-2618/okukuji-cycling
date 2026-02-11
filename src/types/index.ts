@@ -46,7 +46,7 @@ export interface Course extends MicroCMSDate {
     duration: Duration;
     difficulty: Difficulty;
     seasons?: Season[];
-    mainImage: MicroCMSImage;
+    // mainImage removed as it's not present in API
     gpxUrl?: string;
     description: string;
     caution?: string;

@@ -27,14 +27,11 @@ export function CourseCard({ course, index }: CourseCardProps) {
             transition={{ duration: 0.5, delay: index * 0.1 }}
             className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300"
         >
-            {/* 画像 */}
-            <div className="relative h-56 overflow-hidden">
-                <motion.div
-                    className="absolute inset-0 bg-cover bg-center"
-                    style={{ backgroundImage: `url(${course.mainImage.url})` }}
-                    whileHover={{ scale: 1.05 }}
-                    transition={{ duration: 0.4 }}
-                />
+            {/* 画像 (Removed, replaced with Gradient) */}
+            <div className="relative h-56 overflow-hidden bg-gray-800">
+                <div className="absolute inset-0 bg-gradient-to-br from-emerald-900 via-gray-900 to-black" />
+                {/* Decorative Pattern */}
+                <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.3) 1px, transparent 0)', backgroundSize: '20px 20px' }} />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 
                 {/* 難易度バッジ */}
