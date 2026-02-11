@@ -69,43 +69,54 @@ export const processGalleryData = (allImages: Gallery[], limit: number = 10): Ga
     return shuffleArray(result);
 };
 
+const LAYOUT_PATTERN = [
+    // --- ブロックA: 高さ2行分 (左に大、右に縦と小) ---
+    // [ 大 ][ 大 ][ 縦 ][ 小 ]
+    // [ 大 ][ 大 ][ 縦 ][ 小 ]
+    // 0. 大 (Large 2x2)
+    { col: 'col-span-2 md:col-span-2', row: 'row-span-2' },
+    // 1. 縦 (Vertical 1x2)
+    { col: 'col-span-1 md:col-span-1', row: 'row-span-2' },
+    // 2. 小 (Small 1x1)
+    { col: 'col-span-1 md:col-span-1', row: 'row-span-1' },
+    // 3. 小 (Small 1x1)
+    { col: 'col-span-1 md:col-span-1', row: 'row-span-1' },
+
+    // --- ブロックB: 高さ2行分 (横長の積み重ね) ---
+    // [ 横長 ][ 横長 ][ 小 ][ 小 ]
+    // [ 小 ][ 小 ][ 横長 ][ 横長 ]
+    // 4. 横 (Horizontal 2x1)
+    { col: 'col-span-2 md:col-span-2', row: 'row-span-1' },
+    // 5. 小 (Small 1x1)
+    { col: 'col-span-1 md:col-span-1', row: 'row-span-1' },
+    // 6. 小 (Small 1x1)
+    { col: 'col-span-1 md:col-span-1', row: 'row-span-1' },
+    // 7. 小 (Small 1x1)
+    { col: 'col-span-1 md:col-span-1', row: 'row-span-1' },
+    // 8. 小 (Small 1x1)
+    { col: 'col-span-1 md:col-span-1', row: 'row-span-1' },
+    // 9. 横 (Horizontal 2x1)
+    { col: 'col-span-2 md:col-span-2', row: 'row-span-1' },
+
+    // --- ブロックC: 高さ2行分 (左に縦、右に大) ---
+    // [ 縦 ][ 小 ][ 大 ][ 大 ]
+    // [ 縦 ][ 小 ][ 大 ][ 大 ]
+    // 10. 縦 (Vertical 1x2)
+    { col: 'col-span-1 md:col-span-1', row: 'row-span-2' },
+    // 11. 小 (Small 1x1)
+    { col: 'col-span-1 md:col-span-1', row: 'row-span-1' },
+    // 12. 小 (Small 1x1)
+    { col: 'col-span-1 md:col-span-1', row: 'row-span-1' },
+    // 13. 大 (Large 2x2)
+    { col: 'col-span-2 md:col-span-2', row: 'row-span-2' },
+];
+
 /**
- * グリッドサイズ・クラスの決定 (Perfect Block Logic)
- * 4個1セットの鉄壁パターン + 余り処理
+ * グリッドサイズ・クラスの決定 (14-Step Pattern)
  */
-export const getGridSpanClass = (item: Gallery, index: number, total: number): string => {
-    // 余りの計算
-    const remainder = total % 4;
-    const isRemainder = index >= total - remainder;
-
-    // 余り処理 (Remainder Logic)
-    if (isRemainder) {
-        const remainderIndex = index - (total - remainder); // 0, 1, 2...
-
-        // 余りが1枚の場合: 全幅で大きく表示
-        if (remainder === 1) {
-            return 'col-span-2 md:col-span-4 row-span-2';
-        }
-
-        // 余りが2枚の場合: 2枚並べる (2列ずつ = 半幅)
-        if (remainder === 2) {
-            return 'col-span-1 md:col-span-2 row-span-1';
-        }
-
-        // 余りが3枚の場合: 最初の1枚をBig、残り2枚を縦に長くして隙間を埋める
-        if (remainder === 3) {
-            if (remainderIndex === 0) return 'col-span-2 md:col-span-2 row-span-2'; // Big
-            return 'col-span-1 md:col-span-1 row-span-2'; // Tall
-        }
-    }
-
-    // 4個1セットの鉄壁パターン (Perfect Block)
-    // [0 0 1 2]
-    // [0 0 3 3]
-    const mod = index % 4;
-    if (mod === 0) return 'col-span-2 md:col-span-2 row-span-2'; // Big
-    if (mod === 3) return 'col-span-2 md:col-span-2 row-span-1'; // Wide
-    return 'col-span-1 md:col-span-1 row-span-1'; // Small (1 & 2)
+export const getGridSpanClass = (item: Gallery, index: number): string => {
+    const pattern = LAYOUT_PATTERN[index % LAYOUT_PATTERN.length];
+    return `${pattern.col} ${pattern.row}`;
 };
 
 /**
@@ -114,9 +125,8 @@ export const getGridSpanClass = (item: Gallery, index: number, total: number): s
 export const getOptimizedGalleryLayout = (images: Gallery[]): { image: Gallery; spanClass: string }[] => {
     if (!images || images.length === 0) return [];
 
-    const total = images.length;
     return images.map((image, index) => ({
         image,
-        spanClass: getGridSpanClass(image, index, total),
+        spanClass: getGridSpanClass(image, index),
     }));
 };
