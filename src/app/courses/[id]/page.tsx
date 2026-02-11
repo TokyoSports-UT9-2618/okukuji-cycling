@@ -2,15 +2,24 @@ import { Mountain, Clock, Route, Star, ChevronLeft, Download, AlertTriangle, Cal
 import Link from 'next/link';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { mockCourses, getCourseById } from '@/lib/mock-microcms';
+import { client } from '@/lib/client';
 import type { Course } from '@/types';
 import { cn } from '@/lib/utils';
 
 // Static Export用: ビルド時に全パスを生成
-export function generateStaticParams() {
-    return mockCourses.map((course) => ({
-        id: course.id,
-    }));
+export async function generateStaticParams() {
+    try {
+        const data = await client.getList({
+            endpoint: 'courses',
+            queries: { fields: 'id', limit: 100 },
+        });
+        return data.contents.map((course) => ({
+            id: course.id,
+        }));
+    } catch (error) {
+        console.error('Failed to generate static params for courses:', error);
+        return [];
+    }
 }
 
 // 難易度を星の数に変換
@@ -25,7 +34,16 @@ interface CourseDetailPageProps {
 
 export default async function CourseDetailPage({ params }: CourseDetailPageProps) {
     const { id } = await params;
-    const course = await getCourseById(id);
+    let course: Course | null = null;
+
+    try {
+        course = await client.get<Course>({
+            endpoint: 'courses',
+            contentId: id,
+        });
+    } catch (error) {
+        console.error(`Failed to fetch course detail for id ${id}:`, error);
+    }
 
     if (!course) {
         return (
