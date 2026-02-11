@@ -92,3 +92,73 @@ export const getGridSpanClass = (item: Gallery, index: number): string => {
 
     return 'col-span-1 row-span-1';
 };
+
+/**
+ * クラス文字列からスパンの重みを解析
+ */
+const getSpanWeight = (className: string): { mobile: number; desktop: number } => {
+    let mobile = 1;
+    let desktop = 1;
+
+    // Mobile check (base classes)
+    if (className.includes('col-span-2')) {
+        mobile = 2;
+        desktop = 2; // Default desktop inherits mobile unless overridden
+    }
+
+    // Desktop check (md: overrides)
+    if (className.includes('md:col-span-2')) desktop = 2;
+
+    return { mobile, desktop };
+};
+
+/**
+ * ギャラリーのレイアウトを最適化
+ * 最後の画像のクラスを調整して、グリッドの空白を埋める
+ */
+export const getOptimizedGalleryLayout = (images: Gallery[]): { image: Gallery; spanClass: string }[] => {
+    if (!images || images.length === 0) return [];
+
+    const result = images.map((image, index) => ({
+        image,
+        spanClass: getGridSpanClass(image, index),
+    }));
+
+    // 最後の画像のクラスを計算して上書き
+    if (result.length > 0) {
+        let mobileTotal = 0;
+        let desktopTotal = 0;
+
+        // 最後以外のすべてのサイズを集計
+        for (let i = 0; i < result.length - 1; i++) {
+            const { mobile, desktop } = getSpanWeight(result[i].spanClass);
+            mobileTotal += mobile;
+            desktopTotal += desktop;
+        }
+
+        // 必要な残りサイズを計算
+        // Mobile: 2列グリッド
+        const mobileRemainder = mobileTotal % 2;
+        const mobileMissing = (2 - mobileRemainder) % 2 || 2; // 0なら2(全幅)とする
+
+        // Desktop: 4列グリッド
+        const desktopRemainder = desktopTotal % 4;
+        const desktopMissing = (4 - desktopRemainder) % 4 || 4; // 0なら4(全幅)とする
+
+        // クラス生成
+        const mobileClass = mobileMissing === 2 ? 'col-span-2' : 'col-span-1';
+
+        let desktopClass = '';
+        if (desktopMissing === 4) desktopClass = 'md:col-span-4'; // 全幅
+        else if (desktopMissing === 3) desktopClass = 'md:col-span-3';
+        else if (desktopMissing === 2) desktopClass = 'md:col-span-2';
+        else desktopClass = 'md:col-span-1';
+
+        // 行の高さ調整: 全幅の場合は少し高さを出してバランスを取る
+        const rowClass = (desktopMissing === 4) ? 'row-span-1 md:row-span-2' : 'row-span-1';
+
+        result[result.length - 1].spanClass = `${mobileClass} ${desktopClass} ${rowClass}`;
+    }
+
+    return result;
+};

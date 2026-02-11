@@ -5,7 +5,7 @@ import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import { MapPin, X, Maximize2 } from 'lucide-react';
 import Image from 'next/image';
 import { Gallery } from '@/types';
-import { getGridSpanClass } from '@/lib/galleryLogic';
+import { getOptimizedGalleryLayout } from '@/lib/galleryLogic';
 
 interface GallerySectionProps {
     images: Gallery[];
@@ -13,6 +13,7 @@ interface GallerySectionProps {
 
 export default function GallerySection({ images }: GallerySectionProps) {
     const [selectedImage, setSelectedImage] = useState<Gallery | null>(null);
+    const layoutImages = getOptimizedGalleryLayout(images);
 
     return (
         <section className="py-20 bg-[#111827] text-white overflow-hidden">
@@ -51,12 +52,7 @@ export default function GallerySection({ images }: GallerySectionProps) {
             {/* モバイル: 全幅 (Edge-to-Edge) / PC: コンテナ幅 */}
             <div className="w-full md:max-w-7xl md:mx-auto md:px-4">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-1 md:gap-4 auto-rows-[200px] md:auto-rows-[300px] grid-flow-dense">
-                    {images.map((image, index) => {
-                        const isLast = index === images.length - 1;
-                        const spanClass = isLast
-                            ? 'col-span-2 md:col-span-2'
-                            : getGridSpanClass(image, index);
-
+                    {layoutImages.map(({ image, spanClass }, index) => {
                         return (
                             <ParallaxImage
                                 key={image.id}
