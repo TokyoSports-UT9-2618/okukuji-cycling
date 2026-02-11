@@ -92,7 +92,12 @@ const LAYOUT_PATTERN = [
 /**
  * グリッドサイズ・クラスの決定 (7-Step Pattern)
  */
-export const getGridSpanClass = (item: Gallery, index: number): string => {
+export const getGridSpanClass = (item: Gallery, index: number, total: number): string => {
+    // ★最後の一枚は強制的に全幅にして、グリッドを綺麗に閉じる
+    if (index === total - 1) {
+        return 'col-span-2 md:col-span-4 row-span-2';
+    }
+
     const pattern = LAYOUT_PATTERN[index % LAYOUT_PATTERN.length];
     return `${pattern.col} ${pattern.row}`;
 };
@@ -103,8 +108,10 @@ export const getGridSpanClass = (item: Gallery, index: number): string => {
 export const getOptimizedGalleryLayout = (images: Gallery[]): { image: Gallery; spanClass: string }[] => {
     if (!images || images.length === 0) return [];
 
+    const total = images.length; // 総数を取得
+
     return images.map((image, index) => ({
         image,
-        spanClass: getGridSpanClass(image, index),
+        spanClass: getGridSpanClass(image, index, total),
     }));
 };
