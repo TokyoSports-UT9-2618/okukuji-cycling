@@ -71,20 +71,13 @@ export const processGalleryData = (allImages: Gallery[], limit: number = 10): Ga
 
 const LAYOUT_PATTERN = [
     // 4と割り切れない「7個」のサイクルで、行ごとの並びをあえてズレさせる
-    // 1. 大 (2x2)
-    { col: 'col-span-2 md:col-span-2', row: 'row-span-2' },
-    // 2. 小 (1x1)
-    { col: 'col-span-1 md:col-span-1', row: 'row-span-1' },
-    // 3. 縦 (1x2) ★アクセント
-    { col: 'col-span-1 md:col-span-1', row: 'row-span-2' },
-    // 4. 小 (1x1)
-    { col: 'col-span-1 md:col-span-1', row: 'row-span-1' },
-    // 5. 横 (2x1)
-    { col: 'col-span-2 md:col-span-2', row: 'row-span-1' },
-    // 6. 小 (1x1)
-    { col: 'col-span-1 md:col-span-1', row: 'row-span-1' },
-    // 7. 小 (1x1)
-    { col: 'col-span-1 md:col-span-1', row: 'row-span-1' },
+    { col: 'col-span-2 md:col-span-2', row: 'row-span-2' }, // 1. 大 (2x2)
+    { col: 'col-span-1 md:col-span-1', row: 'row-span-1' }, // 2. 小 (1x1)
+    { col: 'col-span-1 md:col-span-1', row: 'row-span-2' }, // 3. 縦 (1x2)
+    { col: 'col-span-1 md:col-span-1', row: 'row-span-1' }, // 4. 小 (1x1)
+    { col: 'col-span-2 md:col-span-2', row: 'row-span-1' }, // 5. 横 (2x1)
+    { col: 'col-span-1 md:col-span-1', row: 'row-span-1' }, // 6. 小 (1x1)
+    { col: 'col-span-1 md:col-span-1', row: 'row-span-1' }, // 7. 小 (1x1)
 ];
 
 /**
