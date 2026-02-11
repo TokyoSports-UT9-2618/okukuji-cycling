@@ -51,7 +51,7 @@ export default function GallerySection({ images }: GallerySectionProps) {
 
             {/* モバイル: 全幅 (Edge-to-Edge) / PC: コンテナ幅 */}
             <div className="w-full md:max-w-7xl md:mx-auto md:px-4">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-1 md:gap-4 auto-rows-[200px] md:auto-rows-[300px] grid-flow-dense">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-1 md:gap-4 auto-rows-[200px] grid-flow-dense">
                     {layoutImages.map(({ image, spanClass }, index) => {
                         return (
                             <ParallaxImage
