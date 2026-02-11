@@ -5,7 +5,7 @@ import SpotsSection from '@/components/SpotsSection';
 import NewsSection from '@/components/NewsSection';
 import GallerySection from '@/components/GallerySection';
 import Footer from '@/components/Footer';
-import { mockCourses, mockNews, mockAccess, mockGallery } from '@/lib/mock-microcms';
+import { mockCourses, mockNews, mockAccess } from '@/lib/mock-microcms';
 import { processGalleryData } from '@/lib/galleryLogic';
 import { Train, Car, ChevronRight } from 'lucide-react';
 
@@ -50,6 +50,10 @@ export default async function Home() {
       endpoint: 'gallery',
       queries: { limit: 50 },
     });
+    console.log('[DEBUG] Gallery Data Fetched Count:', galleryData.contents.length);
+    if (galleryData.contents.length > 0) {
+      console.log('[DEBUG] First Item:', JSON.stringify(galleryData.contents[0], null, 2));
+    }
     gallery = processGalleryData(galleryData.contents);
 
     // Access Fetch
@@ -66,8 +70,8 @@ export default async function Home() {
     // Spots fallback: empty (Requirement: Delete mock data usage)
     // Access fallback
     access = mockAccess;
-    // Gallery fallback
-    gallery = processGalleryData(mockGallery);
+    // Gallery: No fallback (Requirement: Show error)
+    console.error('Gallery fetch failed, showing empty section.');
   }
 
   // Ensure we have data (if fetch returns empty but no error)
@@ -76,9 +80,6 @@ export default async function Home() {
   }
   if (access.length === 0) {
     access = mockAccess;
-  }
-  if (gallery.length === 0) {
-    gallery = processGalleryData(mockGallery);
   }
 
   return (
