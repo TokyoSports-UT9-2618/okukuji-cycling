@@ -50,9 +50,13 @@ export default function GallerySection({ images }: GallerySectionProps) {
 
             {/* モバイル: 全幅 (Edge-to-Edge) / PC: コンテナ幅 */}
             <div className="w-full md:max-w-7xl md:mx-auto md:px-4">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-1 md:gap-4 auto-rows-[200px] md:auto-rows-[300px]">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-1 md:gap-4 auto-rows-[200px] md:auto-rows-[300px] grid-flow-dense">
                     {images.map((image, index) => {
-                        const spanClass = getGridSpanClass(image, index);
+                        const isLast = index === images.length - 1;
+                        const spanClass = isLast
+                            ? 'col-span-2 md:col-span-2'
+                            : getGridSpanClass(image, index);
+
                         return (
                             <ParallaxImage
                                 key={image.id}
