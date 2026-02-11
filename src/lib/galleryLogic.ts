@@ -70,49 +70,25 @@ export const processGalleryData = (allImages: Gallery[], limit: number = 10): Ga
 };
 
 const LAYOUT_PATTERN = [
-    // --- ブロックA: 高さ2行分 (左に大、右に縦と小) ---
-    // [ 大 ][ 大 ][ 縦 ][ 小 ]
-    // [ 大 ][ 大 ][ 縦 ][ 小 ]
-    // 0. 大 (Large 2x2)
+    // 4と割り切れない「7個」のサイクルで、行ごとの並びをあえてズレさせる
+    // 1. 大 (2x2)
     { col: 'col-span-2 md:col-span-2', row: 'row-span-2' },
-    // 1. 縦 (Vertical 1x2)
+    // 2. 小 (1x1)
+    { col: 'col-span-1 md:col-span-1', row: 'row-span-1' },
+    // 3. 縦 (1x2) ★アクセント
     { col: 'col-span-1 md:col-span-1', row: 'row-span-2' },
-    // 2. 小 (Small 1x1)
+    // 4. 小 (1x1)
     { col: 'col-span-1 md:col-span-1', row: 'row-span-1' },
-    // 3. 小 (Small 1x1)
-    { col: 'col-span-1 md:col-span-1', row: 'row-span-1' },
-
-    // --- ブロックB: 高さ2行分 (横長の積み重ね) ---
-    // [ 横長 ][ 横長 ][ 小 ][ 小 ]
-    // [ 小 ][ 小 ][ 横長 ][ 横長 ]
-    // 4. 横 (Horizontal 2x1)
+    // 5. 横 (2x1)
     { col: 'col-span-2 md:col-span-2', row: 'row-span-1' },
-    // 5. 小 (Small 1x1)
+    // 6. 小 (1x1)
     { col: 'col-span-1 md:col-span-1', row: 'row-span-1' },
-    // 6. 小 (Small 1x1)
+    // 7. 小 (1x1)
     { col: 'col-span-1 md:col-span-1', row: 'row-span-1' },
-    // 7. 小 (Small 1x1)
-    { col: 'col-span-1 md:col-span-1', row: 'row-span-1' },
-    // 8. 小 (Small 1x1)
-    { col: 'col-span-1 md:col-span-1', row: 'row-span-1' },
-    // 9. 横 (Horizontal 2x1)
-    { col: 'col-span-2 md:col-span-2', row: 'row-span-1' },
-
-    // --- ブロックC: 高さ2行分 (左に縦、右に大) ---
-    // [ 縦 ][ 小 ][ 大 ][ 大 ]
-    // [ 縦 ][ 小 ][ 大 ][ 大 ]
-    // 10. 縦 (Vertical 1x2)
-    { col: 'col-span-1 md:col-span-1', row: 'row-span-2' },
-    // 11. 小 (Small 1x1)
-    { col: 'col-span-1 md:col-span-1', row: 'row-span-1' },
-    // 12. 小 (Small 1x1)
-    { col: 'col-span-1 md:col-span-1', row: 'row-span-1' },
-    // 13. 大 (Large 2x2)
-    { col: 'col-span-2 md:col-span-2', row: 'row-span-2' },
 ];
 
 /**
- * グリッドサイズ・クラスの決定 (14-Step Pattern)
+ * グリッドサイズ・クラスの決定 (7-Step Pattern)
  */
 export const getGridSpanClass = (item: Gallery, index: number): string => {
     const pattern = LAYOUT_PATTERN[index % LAYOUT_PATTERN.length];
@@ -125,18 +101,8 @@ export const getGridSpanClass = (item: Gallery, index: number): string => {
 export const getOptimizedGalleryLayout = (images: Gallery[]): { image: Gallery; spanClass: string }[] => {
     if (!images || images.length === 0) return [];
 
-    const total = images.length;
-    return images.map((image, index) => {
-        let spanClass = getGridSpanClass(image, index);
-
-        // Safety: Force the last item to be full width to catch any layout gaps and ensure visibility
-        if (index === total - 1) {
-            spanClass = 'col-span-2 md:col-span-full row-span-1';
-        }
-
-        return {
-            image,
-            spanClass,
-        };
-    });
+    return images.map((image, index) => ({
+        image,
+        spanClass: getGridSpanClass(image, index),
+    }));
 };
