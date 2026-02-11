@@ -87,3 +87,13 @@ export interface Access extends MicroCMSDate {
     title: string;
     items?: string[] | string;
 }
+
+// Gallery（フォトギャラリー）
+export interface Gallery extends MicroCMSDate {
+    id: string;
+    image: MicroCMSImage;
+    locationName: string;
+    mapUrl?: string;
+    gridSize?: string[]; // ['large'] | ['medium'] | ['small']
+    season?: string[];   // ['spring'] | ['summer'] | ['autumn'] | ['winter'] | ['all']
+}

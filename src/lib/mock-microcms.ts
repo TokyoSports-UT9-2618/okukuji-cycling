@@ -1,4 +1,4 @@
-import type { News, Course, Spot, Access, MicroCMSListResponse } from '@/types';
+import type { News, Course, Spot, Access, Gallery, MicroCMSListResponse } from '@/types';
 
 // ダミー日時
 const now = new Date().toISOString();
@@ -139,6 +139,116 @@ export const mockAccess: Access[] = [
             '東北自動車道「矢板IC」から約60分',
             '無料駐車場あり（大子駅前・袋田の滝）',
         ],
+    },
+];
+
+// ======================
+// Gallery モックデータ
+// ======================
+export const mockGallery: Gallery[] = [
+    {
+        id: 'gallery-001',
+        ...baseDate,
+        image: {
+            url: '/hero-main.jpg',
+            width: 1200,
+            height: 800,
+        },
+        locationName: '棚倉城跡の桜',
+        mapUrl: 'https://goo.gl/maps/example',
+        gridSize: ['large'],
+        season: ['spring'],
+    },
+    {
+        id: 'gallery-002',
+        ...baseDate,
+        image: {
+            url: '/placeholders/news-1.jpg',
+            width: 800,
+            height: 600,
+        },
+        locationName: '山本不動尊',
+        mapUrl: 'https://goo.gl/maps/example',
+        gridSize: ['small'],
+        season: ['all'],
+    },
+    {
+        id: 'gallery-003',
+        ...baseDate,
+        image: {
+            url: '/placeholders/news-2.jpg',
+            width: 800,
+            height: 600,
+        },
+        locationName: '湯遊ランドはなわ',
+        mapUrl: 'https://goo.gl/maps/example',
+        gridSize: ['medium'],
+        season: ['summer'],
+    },
+    {
+        id: 'gallery-004',
+        ...baseDate,
+        image: {
+            url: '/placeholders/news-3.jpg',
+            width: 800,
+            height: 600,
+        },
+        locationName: '強滝',
+        mapUrl: 'https://goo.gl/maps/example',
+        gridSize: ['large'],
+        season: ['autumn'],
+    },
+    {
+        id: 'gallery-005',
+        ...baseDate,
+        image: {
+            url: '/hero-main.jpg',
+            width: 1200,
+            height: 800,
+        },
+        locationName: '矢祭山公園',
+        mapUrl: 'https://goo.gl/maps/example',
+        gridSize: ['small'],
+        season: ['spring'],
+    },
+    {
+        id: 'gallery-006',
+        ...baseDate,
+        image: {
+            url: '/placeholders/news-1.jpg',
+            width: 800,
+            height: 600,
+        },
+        locationName: '江竜田の滝',
+        mapUrl: 'https://goo.gl/maps/example',
+        gridSize: ['small'],
+        season: ['summer'],
+    },
+    {
+        id: 'gallery-007',
+        ...baseDate,
+        image: {
+            url: '/placeholders/news-2.jpg',
+            width: 800,
+            height: 600,
+        },
+        locationName: '久慈川の清流',
+        mapUrl: 'https://goo.gl/maps/example',
+        gridSize: ['large'],
+        season: ['all'],
+    },
+    {
+        id: 'gallery-008',
+        ...baseDate,
+        image: {
+            url: '/placeholders/news-3.jpg',
+            width: 800,
+            height: 600,
+        },
+        locationName: '八溝山',
+        mapUrl: 'https://goo.gl/maps/example',
+        gridSize: ['small'],
+        season: ['autumn'],
     },
 ];
 
