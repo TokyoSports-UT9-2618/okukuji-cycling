@@ -35,7 +35,7 @@ export const shuffleArray = <T>(array: T[]): T[] => {
 /**
  * ギャラリー表示用データの生成
  */
-export const processGalleryData = (allImages: Gallery[], limit: number = 10): Gallery[] => {
+export const processGalleryData = (allImages: Gallery[], limit: number = 100): Gallery[] => {
     if (!allImages || allImages.length === 0) return [];
 
     const currentMonth = getCurrentMonth();
