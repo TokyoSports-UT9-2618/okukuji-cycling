@@ -70,14 +70,23 @@ export const processGalleryData = (allImages: Gallery[], limit: number = 100): G
 };
 
 const LAYOUT_PATTERN = [
-    // 修正版: 詰め込みやすさを重視した7個周期
-    { col: 'col-span-2 md:col-span-2', row: 'row-span-2' }, // 1. 大 (2x2)
-    { col: 'col-span-1 md:col-span-1', row: 'row-span-1' }, // 2. 小 (1x1)
-    { col: 'col-span-1 md:col-span-1', row: 'row-span-1' }, // 3. 小 (1x1) ★縦長を小に変更して埋まりやすくする
-    { col: 'col-span-1 md:col-span-1', row: 'row-span-1' }, // 4. 小 (1x1)
-    { col: 'col-span-2 md:col-span-2', row: 'row-span-1' }, // 5. 横 (2x1)
-    { col: 'col-span-1 md:col-span-1', row: 'row-span-1' }, // 6. 小 (1x1)
-    { col: 'col-span-1 md:col-span-1', row: 'row-span-1' }, // 7. 小 (1x1)
+    // Block 1: 左に大(2x2)、右に小(1x1)が4つ
+    { col: 'col-span-2 md:col-span-2', row: 'row-span-2' }, // 1. Big
+    { col: 'col-span-1 md:col-span-1', row: 'row-span-1' }, // 2. Small
+    { col: 'col-span-1 md:col-span-1', row: 'row-span-1' }, // 3. Small
+    { col: 'col-span-1 md:col-span-1', row: 'row-span-1' }, // 4. Small
+    { col: 'col-span-1 md:col-span-1', row: 'row-span-1' }, // 5. Small
+
+    // Block 2: 左に縦長(1x2)、中に横長(2x1)、右に小(1x1)など
+    { col: 'col-span-1 md:col-span-1', row: 'row-span-2' }, // 6. Vertical
+    { col: 'col-span-2 md:col-span-2', row: 'row-span-1' }, // 7. Wide
+    { col: 'col-span-1 md:col-span-1', row: 'row-span-1' }, // 8. Small
+    { col: 'col-span-1 md:col-span-1', row: 'row-span-1' }, // 9. Small
+    { col: 'col-span-2 md:col-span-2', row: 'row-span-1' }, // 10. Wide
+
+    // Block 3: 最下段の調整 (横長2つ)
+    { col: 'col-span-2 md:col-span-2', row: 'row-span-1' }, // 11. Wide
+    { col: 'col-span-2 md:col-span-2', row: 'row-span-1' }, // 12. Wide
 ];
 
 /**
