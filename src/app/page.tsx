@@ -11,7 +11,7 @@ import { Train, Car, ChevronRight } from 'lucide-react';
 import { client } from '@/lib/client';
 import type { News, Course, Spot, Access, Gallery } from '@/types';
 
-export const revalidate = 0; // Ensure random shuffle on every request
+
 
 export default async function Home() {
   let news: News[] = [];
