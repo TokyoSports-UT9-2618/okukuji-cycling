@@ -1,15 +1,28 @@
 import { Metadata } from 'next';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { mockCourses } from '@/lib/mock-microcms';
+import { client } from '@/lib/client';
 import { CourseCard } from '@/components/CoursesSection';
+import type { Course } from '@/types';
 
 export const metadata: Metadata = {
     title: 'モデルコース | 奥久慈街道サイクリング',
     description: '初心者から上級者まで、レベルに合わせたサイクリングコースをご紹介。獲得標高を目安に、あなたにぴったりのコースを見つけてください。',
 };
 
-export default function CoursesPage() {
+export default async function CoursesPage() {
+    let courses: Course[] = [];
+
+    try {
+        const data = await client.getList<Course>({
+            endpoint: 'courses',
+            queries: { limit: 100, orders: 'elevation' },
+        });
+        courses = data.contents;
+    } catch (error) {
+        console.error('Failed to fetch courses:', error);
+    }
+
     return (
         <>
             <Header />
@@ -34,11 +47,17 @@ export default function CoursesPage() {
                 {/* コース一覧 */}
                 <section className="py-16 bg-gray-50">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                            {mockCourses.map((course, index) => (
-                                <CourseCard key={course.id} course={course} index={index} />
-                            ))}
-                        </div>
+                        {courses.length > 0 ? (
+                            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                {courses.map((course, index) => (
+                                    <CourseCard key={course.id} course={course} index={index} />
+                                ))}
+                            </div>
+                        ) : (
+                            <p className="text-center text-gray-500 py-12">
+                                コース情報を読み込めませんでした。
+                            </p>
+                        )}
                     </div>
                 </section>
             </main>

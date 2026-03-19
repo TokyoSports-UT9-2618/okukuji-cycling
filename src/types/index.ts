@@ -33,22 +33,20 @@ export interface News extends MicroCMSDate {
 }
 
 // Courses（モデルコース）
-export type Difficulty = '★1（家族向け）' | '★2（初心者）' | '★3（中級）' | '★4（上級）' | '★5（健脚）';
 export type Season = '春' | '夏' | '秋' | '冬';
-export type Duration = '2時間' | '3時間' | '半日' | '1日';
 
 export interface Course extends MicroCMSDate {
     id: string;
-    name: string;
-    summary: string;
-    distance: number; // km
-    elevation: number; // m（獲得標高）
-    duration: Duration;
-    difficulty: Difficulty;
+    title: string;      // microCMS フィールド名は title
+    distance: number;   // km
+    elevation: number;  // m（獲得標高）
+    difficulty: string;
+    // 以下はスキーマ拡張後に使用可能
+    summary?: string;
+    description?: string;
+    duration?: string;
     seasons?: Season[];
-    // mainImage removed as it's not present in API
     gpxUrl?: string;
-    description: string;
     caution?: string;
 }
 

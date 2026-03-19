@@ -53,13 +53,13 @@ export default async function CourseDetailPage({ params }: CourseDetailPageProps
             const spotsData = await client.getList<Spot>({
                 endpoint: 'spots',
                 queries: {
-                    filters: `course[contains]${course.name}`,
+                    filters: `course[contains]${course.title}`,
                     limit: 100,
                 },
             });
             courseSpots = spotsData.contents;
         } catch (error) {
-            console.error(`Failed to fetch spots for course ${course.name}:`, error);
+            console.error(`Failed to fetch spots for course ${course.title}:`, error);
         }
     }
 
@@ -108,7 +108,7 @@ export default async function CourseDetailPage({ params }: CourseDetailPageProps
                             </Link>
 
                             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
-                                {course.name}
+                                {course.title}
                             </h1>
 
                             {/* 難易度・シーズン */}
@@ -152,15 +152,21 @@ export default async function CourseDetailPage({ params }: CourseDetailPageProps
                             {/* メインコンテンツ */}
                             <div className="lg:col-span-2">
                                 {/* 概要 */}
-                                <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
-                                    <h2 className="text-xl font-bold text-gray-900 mb-4">コース概要</h2>
-                                    <p className="text-gray-600 leading-relaxed mb-6">
-                                        {course.summary}
-                                    </p>
-                                    <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">
-                                        {course.description}
-                                    </p>
-                                </div>
+                                {(course.summary || course.description) && (
+                                    <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
+                                        <h2 className="text-xl font-bold text-gray-900 mb-4">コース概要</h2>
+                                        {course.summary && (
+                                            <p className="text-gray-600 leading-relaxed mb-6">
+                                                {course.summary}
+                                            </p>
+                                        )}
+                                        {course.description && (
+                                            <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">
+                                                {course.description}
+                                            </p>
+                                        )}
+                                    </div>
+                                )}
 
                                 {/* 注意事項 */}
                                 {course.caution && (
@@ -208,13 +214,15 @@ export default async function CourseDetailPage({ params }: CourseDetailPageProps
                                             </div>
                                         </div>
 
-                                        <div className="flex items-center gap-4 p-3 bg-gray-50 rounded-lg">
-                                            <Clock className="w-5 h-5 text-gray-400" />
-                                            <div>
-                                                <p className="text-sm text-gray-500">所要時間（目安）</p>
-                                                <p className="font-semibold text-gray-900">{course.duration}</p>
+                                        {course.duration && (
+                                            <div className="flex items-center gap-4 p-3 bg-gray-50 rounded-lg">
+                                                <Clock className="w-5 h-5 text-gray-400" />
+                                                <div>
+                                                    <p className="text-sm text-gray-500">所要時間（目安）</p>
+                                                    <p className="font-semibold text-gray-900">{course.duration}</p>
+                                                </div>
                                             </div>
-                                        </div>
+                                        )}
 
                                         <div className="flex items-center gap-4 p-3 bg-gray-50 rounded-lg">
                                             <Star className="w-5 h-5 text-amber-400" />

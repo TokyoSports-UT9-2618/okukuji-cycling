@@ -37,12 +37,14 @@ export default function MainCourseSection({ course }: MainCourseSectionProps) {
                                 奥久慈街道
                                 <br />
                                 <span className="text-2xl md:text-3xl font-medium text-gray-300">
-                                    {course.name}
+                                    {course.title}
                                 </span>
                             </h2>
-                            <p className="text-gray-300 text-lg leading-relaxed mb-8">
-                                {course.description}
-                            </p>
+                            {course.description && (
+                                <p className="text-gray-300 text-lg leading-relaxed mb-8">
+                                    {course.description}
+                                </p>
+                            )}
                         </motion.div>
 
                         {/* 統計情報 */}

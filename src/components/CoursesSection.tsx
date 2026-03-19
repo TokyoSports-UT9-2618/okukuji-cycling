@@ -65,11 +65,13 @@ export function CourseCard({ course, index }: CourseCardProps) {
             {/* コンテンツ */}
             <div className="p-6">
                 <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-emerald-600 transition-colors">
-                    {course.name}
+                    {course.title}
                 </h3>
-                <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-                    {course.summary}
-                </p>
+                {course.summary && (
+                    <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                        {course.summary}
+                    </p>
+                )}
 
                 {/* スペック（獲得標高を強調） */}
                 <div className="grid grid-cols-3 gap-4 mb-4">
@@ -97,7 +99,7 @@ export function CourseCard({ course, index }: CourseCardProps) {
                     {/* 所要時間 */}
                     <div className="text-center">
                         <Clock className="w-5 h-5 text-gray-400 mx-auto mb-1" />
-                        <p className="text-lg font-semibold text-gray-900">{course.duration}</p>
+                        <p className="text-lg font-semibold text-gray-900">{course.duration ?? '—'}</p>
                         <p className="text-xs text-gray-500">目安</p>
                     </div>
 
