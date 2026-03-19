@@ -5,6 +5,27 @@ import type { CourseData } from '@/data/courses';
 import { MapPin, Clock, ArrowUpDown, Phone, Home, AlarmClock } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
+function getSpotTheme(name: string, description: string): { emoji: string; gradient: string } {
+  const text = (name + ' ' + description).toLowerCase();
+  if (text.includes('カフェ') || text.includes('cafe') || text.includes('コーヒー'))
+    return { emoji: '☕', gradient: 'from-amber-500 to-amber-700' };
+  if (text.includes('パン') || text.includes('ランチ') || text.includes('食堂') || text.includes('レストラン'))
+    return { emoji: '🍱', gradient: 'from-red-500 to-red-700' };
+  if (text.includes('温泉') || text.includes('湯'))
+    return { emoji: '♨️', gradient: 'from-rose-500 to-rose-700' };
+  if (text.includes('サイクル') || text.includes('自転車') || text.includes('ラック'))
+    return { emoji: '🚲', gradient: 'from-blue-500 to-blue-700' };
+  if (text.includes('道の駅') || text.includes('物産') || text.includes('コンビニ'))
+    return { emoji: '🏪', gradient: 'from-green-500 to-green-700' };
+  if (text.includes('神社') || text.includes('寺') || text.includes('城'))
+    return { emoji: '⛩️', gradient: 'from-orange-500 to-orange-700' };
+  if (text.includes('公園') || text.includes('山') || text.includes('川') || text.includes('渓谷'))
+    return { emoji: '🌿', gradient: 'from-emerald-500 to-emerald-700' };
+  if (text.includes('トイレ'))
+    return { emoji: '🚻', gradient: 'from-gray-500 to-gray-700' };
+  return { emoji: '📍', gradient: 'from-emerald-600 to-emerald-800' };
+}
+
 const levelColors: Record<number, string> = {
   1: 'bg-emerald-100 text-emerald-800',
   2: 'bg-blue-100 text-blue-800',
@@ -127,50 +148,56 @@ export default function CourseTabs({ courses }: Props) {
               <MapPin className="w-4 h-4 text-emerald-500" />
               立ち寄りスポット（{active.spots.length}件）
             </h3>
-            <div className="space-y-4">
-              {active.spots.map((spot) => (
-                <div
-                  key={spot.number}
-                  className="flex gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100"
-                >
-                  {/* 番号バッジ */}
-                  <div className="shrink-0 w-8 h-8 rounded-full bg-emerald-600 text-white text-sm font-bold flex items-center justify-center">
-                    {spot.number}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-slate-800 text-sm mb-1">{spot.name}</p>
-                    <p className="text-slate-500 text-xs leading-relaxed mb-2">
-                      {spot.description}
-                    </p>
-                    <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-500">
-                      {spot.address && (
-                        <span className="flex items-center gap-1">
-                          <Home className="w-3 h-3" />
-                          {spot.address}
-                        </span>
-                      )}
-                      {spot.hours && (
-                        <span className="flex items-center gap-1">
-                          <Clock className="w-3 h-3" />
-                          {spot.hours}
-                        </span>
-                      )}
-                      {spot.closed && (
-                        <span className="flex items-center gap-1">
-                          <span className="font-medium">休：</span>
-                          {spot.closed}
-                        </span>
-                      )}
-                      {spot.phone && (
-                        <span className="flex items-center gap-1">
-                          <Phone className="w-3 h-3" />
-                          {spot.phone}
-                        </span>
-                      )}
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {active.spots.map((spot) => {
+                const { emoji, gradient } = getSpotTheme(spot.name, spot.description);
+                return (
+                  <div
+                    key={spot.number}
+                    className="rounded-xl overflow-hidden border border-slate-100 shadow-sm flex flex-col"
+                  >
+                    {/* 画像エリア（絵文字＋グラデーション） */}
+                    <div className={cn('h-32 bg-gradient-to-br flex flex-col items-center justify-center relative', gradient)}>
+                      <div
+                        className="absolute inset-0 opacity-10"
+                        style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.6) 1px, transparent 0)', backgroundSize: '16px 16px' }}
+                      />
+                      <span className="text-4xl drop-shadow-md z-10">{emoji}</span>
+                    </div>
+                    {/* コンテンツ */}
+                    <div className="p-4 flex flex-col flex-grow bg-white">
+                      <h4 className="font-bold text-slate-800 text-sm mb-1">{spot.name}</h4>
+                      <p className="text-slate-500 text-xs leading-relaxed mb-3 line-clamp-2">{spot.description}</p>
+                      <div className="mt-auto space-y-1 text-xs text-slate-500">
+                        {spot.address && (
+                          <div className="flex items-start gap-1">
+                            <Home className="w-3 h-3 mt-0.5 flex-shrink-0" />
+                            <span>{spot.address}</span>
+                          </div>
+                        )}
+                        {spot.hours && (
+                          <div className="flex items-center gap-1">
+                            <Clock className="w-3 h-3 flex-shrink-0" />
+                            <span>{spot.hours}</span>
+                          </div>
+                        )}
+                        {spot.closed && (
+                          <div className="flex items-center gap-1">
+                            <span className="font-medium">休：</span>
+                            <span>{spot.closed}</span>
+                          </div>
+                        )}
+                        {spot.phone && (
+                          <div className="flex items-center gap-1">
+                            <Phone className="w-3 h-3 flex-shrink-0" />
+                            <span>{spot.phone}</span>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         )}
