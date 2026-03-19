@@ -8,6 +8,7 @@ import Image from 'next/image';
 
 const navItems = [
     { label: 'ホーム', href: '/' },
+    { label: 'コース情報', href: '/course' },
     { label: 'スポット', href: '/spots' },
     { label: 'お知らせ', href: '/news' },
     { label: 'アクセス', href: '/#access' },

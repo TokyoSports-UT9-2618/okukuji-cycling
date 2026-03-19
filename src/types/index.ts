@@ -52,6 +52,9 @@ export interface Course extends MicroCMSDate {
     caution?: string;
 }
 
+// CourseName（コース情報ページ用）
+export type CourseName = '塙町コース' | '矢祭町コース' | '棚倉町コース' | '鮫川村コース' | 'ツール・ド・はなわ' | '三角形の道' | '奥久慈街道';
+
 // Spots（駅・グルメ・設備スポット）
 export type SpotCategory =
     | 'サイクルラック'
@@ -78,6 +81,7 @@ export interface Spot extends MicroCMSDate {
     address?: string;
     facilities?: string[];
     show_on_top?: boolean;
+    course?: CourseName[];
 }
 
 // Access（アクセス）
