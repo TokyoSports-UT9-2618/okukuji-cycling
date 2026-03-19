@@ -45,6 +45,32 @@ const categoryColors: Record<SpotCategory, string> = {
     コンビニ: 'bg-green-100 text-green-600',
 };
 
+// カテゴリ絵文字
+const categoryEmojis: Record<SpotCategory, string> = {
+    サイクルラック: '🚲',
+    工具貸出: '🔧',
+    空気入れ: '💨',
+    トイレ: '🚻',
+    給水: '💧',
+    ランチ: '🍱',
+    カフェ: '☕',
+    温泉: '♨️',
+    コンビニ: '🏪',
+};
+
+// カテゴリ背景グラデーション（プレースホルダー用）
+const categoryBgGradients: Record<SpotCategory, string> = {
+    サイクルラック: 'from-blue-600 to-blue-800',
+    工具貸出: 'from-orange-500 to-orange-700',
+    空気入れ: 'from-cyan-500 to-cyan-700',
+    トイレ: 'from-gray-500 to-gray-700',
+    給水: 'from-sky-500 to-sky-700',
+    ランチ: 'from-red-500 to-red-700',
+    カフェ: 'from-amber-500 to-amber-700',
+    温泉: 'from-rose-500 to-rose-700',
+    コンビニ: 'from-green-500 to-green-700',
+};
+
 // CMSのfacilitiesフィールド（英語キー）とSpotCategory（日本語ラベル）のマッピング
 const FACILITY_MAPPING: Record<string, SpotCategory> = {
     cycle_rack: 'サイクルラック',
@@ -93,17 +119,35 @@ export function SpotCard({ spot, index }: { spot: Spot; index: number }) {
                 />
             )}
 
-            {/* 画像 */}
-            {spot.image && (
+            {/* 画像 or プレースホルダー */}
+            {spot.image ? (
                 <div className="h-40 overflow-hidden relative">
                     <img
                         src={spot.image.url}
                         alt={spot.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
-                    {/* 外部リンクアイコン（右上に表示など） */}
                     {spot.link && (
                         <div className="absolute top-2 right-2 bg-black/50 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <ExternalLink className="w-4 h-4" />
+                        </div>
+                    )}
+                </div>
+            ) : (
+                <div className={cn(
+                    'h-40 overflow-hidden relative flex flex-col items-center justify-center bg-gradient-to-br',
+                    displayCategories[0] ? categoryBgGradients[displayCategories[0]] : 'from-emerald-600 to-emerald-800'
+                )}>
+                    {/* 装飾パターン */}
+                    <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.6) 1px, transparent 0)', backgroundSize: '16px 16px' }} />
+                    <span className="text-4xl mb-1 drop-shadow-md z-10">
+                        {displayCategories[0] ? categoryEmojis[displayCategories[0]] : '📍'}
+                    </span>
+                    <span className="text-white/80 text-xs font-medium tracking-widest z-10">
+                        {displayCategories[0] ?? 'スポット'}
+                    </span>
+                    {spot.link && (
+                        <div className="absolute top-2 right-2 bg-black/30 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                             <ExternalLink className="w-4 h-4" />
                         </div>
                     )}

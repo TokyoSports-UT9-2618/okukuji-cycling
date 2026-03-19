@@ -7,6 +7,17 @@ import type { Course, Spot } from '@/types';
 import { cn } from '@/lib/utils';
 import { SpotCard } from '@/components/SpotsSection';
 
+// コースタイトルに応じたビジュアルテーマ（CoursesSection.tsx と同期）
+const courseHeroThemes: Record<string, { gradient: string; emoji: string; label: string }> = {
+    '塙町コース':         { gradient: 'from-pink-900 via-rose-800 to-orange-900',    emoji: '🌸', label: '久慈川・桜' },
+    '矢祭町コース':       { gradient: 'from-teal-900 via-emerald-800 to-cyan-900',   emoji: '🌊', label: '渓谷・滝川' },
+    '棚倉町コース':       { gradient: 'from-amber-800 via-yellow-700 to-orange-900', emoji: '⛩️', label: '城下町・神社' },
+    '鮫川村コース':       { gradient: 'from-green-900 via-lime-800 to-emerald-900',  emoji: '🐄', label: '牧場・高原' },
+    'ツール・ド・はなわ': { gradient: 'from-red-900 via-rose-800 to-pink-900',        emoji: '🏆', label: 'レースコース' },
+    '三角形の道':         { gradient: 'from-violet-900 via-purple-800 to-indigo-900', emoji: '🌿', label: '渓谷・滝' },
+    '奥久慈街道':         { gradient: 'from-blue-900 via-indigo-800 to-slate-900',   emoji: '🗺️', label: '全線80km' },
+};
+
 // Static Export用: ビルド時に全パスを生成
 export async function generateStaticParams() {
     try {
@@ -86,15 +97,28 @@ export default async function CourseDetailPage({ params }: CourseDetailPageProps
     }
 
     const stars = getDifficultyStars(course.difficulty);
+    const heroTheme = courseHeroThemes[course.title] ?? { gradient: 'from-emerald-900 via-gray-800 to-black', emoji: '🚴', label: 'サイクリング' };
 
     return (
         <>
             <Header />
             <main className="min-h-screen">
                 {/* Hero */}
-                <section className="relative h-[50vh] min-h-[400px] bg-gray-900">
-                    <div className="absolute inset-0 bg-gradient-to-br from-emerald-900/40 to-black/60" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                <section className={cn('relative h-[50vh] min-h-[400px] bg-gradient-to-br', heroTheme.gradient)}>
+                    {/* 装飾パターン */}
+                    <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.4) 1px, transparent 0)', backgroundSize: '20px 20px' }} />
+                    {/* 山並みシルエット */}
+                    <svg className="absolute bottom-0 left-0 w-full opacity-15" viewBox="0 0 800 150" preserveAspectRatio="none">
+                        <path d="M0,150 L0,90 L100,50 L200,80 L320,30 L440,65 L560,20 L680,55 L800,35 L800,150 Z" fill="white" />
+                    </svg>
+                    <svg className="absolute bottom-0 left-0 w-full opacity-10" viewBox="0 0 800 150" preserveAspectRatio="none">
+                        <path d="M0,150 L0,110 L130,80 L260,100 L380,65 L500,90 L620,70 L730,85 L800,75 L800,150 Z" fill="white" />
+                    </svg>
+                    {/* コースアイコン */}
+                    <div className="absolute top-1/4 right-12 hidden md:flex flex-col items-center opacity-20">
+                        <span className="text-7xl">{heroTheme.emoji}</span>
+                    </div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
                     <div className="absolute inset-0 flex items-end">
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 w-full">
