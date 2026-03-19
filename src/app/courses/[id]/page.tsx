@@ -1,10 +1,11 @@
-import { Mountain, Clock, Route, Star, ChevronLeft, Download, AlertTriangle, Calendar } from 'lucide-react';
+import { Mountain, Clock, Route, Star, ChevronLeft, Download, AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { client } from '@/lib/client';
-import type { Course } from '@/types';
+import type { Course, Spot } from '@/types';
 import { cn } from '@/lib/utils';
+import { SpotCard } from '@/components/SpotsSection';
 
 // Static Export用: ビルド時に全パスを生成
 export async function generateStaticParams() {
@@ -35,6 +36,7 @@ interface CourseDetailPageProps {
 export default async function CourseDetailPage({ params }: CourseDetailPageProps) {
     const { id } = await params;
     let course: Course | null = null;
+    let courseSpots: Spot[] = [];
 
     try {
         course = await client.get<Course>({
@@ -43,6 +45,22 @@ export default async function CourseDetailPage({ params }: CourseDetailPageProps
         });
     } catch (error) {
         console.error(`Failed to fetch course detail for id ${id}:`, error);
+    }
+
+    // コース名でスポットをフィルタ取得
+    if (course) {
+        try {
+            const spotsData = await client.getList<Spot>({
+                endpoint: 'spots',
+                queries: {
+                    filters: `course[contains]${course.name}`,
+                    limit: 100,
+                },
+            });
+            courseSpots = spotsData.contents;
+        } catch (error) {
+            console.error(`Failed to fetch spots for course ${course.name}:`, error);
+        }
     }
 
     if (!course) {
@@ -74,7 +92,6 @@ export default async function CourseDetailPage({ params }: CourseDetailPageProps
             <Header />
             <main className="min-h-screen">
                 {/* Hero */}
-                {/* Hero */}
                 <section className="relative h-[50vh] min-h-[400px] bg-gray-900">
                     <div className="absolute inset-0 bg-gradient-to-br from-emerald-900/40 to-black/60" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
@@ -83,7 +100,7 @@ export default async function CourseDetailPage({ params }: CourseDetailPageProps
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 w-full">
                             {/* パンくず */}
                             <Link
-                                href="/#courses"
+                                href="/courses"
                                 className="inline-flex items-center gap-1 text-white/80 hover:text-white mb-4 text-sm transition-colors"
                             >
                                 <ChevronLeft className="w-4 h-4" />
@@ -128,7 +145,7 @@ export default async function CourseDetailPage({ params }: CourseDetailPageProps
                     </div>
                 </section>
 
-                {/* Content */}
+                {/* コース概要・スペック */}
                 <section className="py-12">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="grid lg:grid-cols-3 gap-8">
@@ -223,6 +240,31 @@ export default async function CourseDetailPage({ params }: CourseDetailPageProps
                         </div>
                     </div>
                 </section>
+
+                {/* コーススポット */}
+                {courseSpots.length > 0 && (
+                    <section className="py-12 bg-gray-50">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div className="mb-10">
+                                <p className="text-emerald-600 font-medium mb-2 tracking-widest text-sm">
+                                    COURSE SPOTS
+                                </p>
+                                <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
+                                    立ち寄りスポット
+                                </h2>
+                                <p className="text-gray-500 mt-2">
+                                    このコース沿いのおすすめスポット（{courseSpots.length}件）
+                                </p>
+                            </div>
+
+                            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {courseSpots.map((spot, index) => (
+                                    <SpotCard key={spot.id} spot={spot} index={index} />
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+                )}
             </main>
             <Footer />
         </>
