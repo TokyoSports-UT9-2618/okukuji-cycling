@@ -20,7 +20,7 @@ export default async function SpotsPage() {
             endpoint: 'spots',
             queries: { limit: 100 }, // Fetch all spots (up to limit)
         });
-        spots = data.contents;
+        spots = data.contents.filter((s: Spot) => !s.title.startsWith('__'));
     } catch (error) {
         console.error('Failed to fetch spots:', error);
     }
