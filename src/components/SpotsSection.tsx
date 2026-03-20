@@ -19,6 +19,48 @@ import {
 import type { Spot, SpotCategory } from '@/types';
 import { cn } from '@/lib/utils';
 
+// スポット名 → ローカル画像パスのマッピング（Cloudflare Pagesから配信）
+const SPOT_LOCAL_IMAGES: Record<string, string> = {
+    // 塙町コース
+    '塙町コミュニティプラザ':           '/spots/spot-1.jpg',
+    '笹原パン店':                        '/spots/spot-2.jpg',
+    'Shiro Cafe':                        '/spots/spot-3.jpg',
+    "Café's Bond141":                    '/spots/spot-4.jpg',
+    '久慈川サイクリングロード':          '/spots/spot-5.jpg',
+    '道の駅 はなわ天領の郷':            '/spots/spot-6.jpg',
+    '向ヶ丘公園':                        '/spots/spot-7.jpg',
+    '風呂山公園':                        '/spots/spot-8.jpg',
+    // 矢祭町コース
+    'ユーパル矢祭':                      '/spots/spot-1-1.jpg',
+    '和ダイニング つどい':               '/spots/spot-2-1.jpg',
+    '珈琲香坊':                          '/spots/spot-3-1.jpg',
+    '滝川渓谷遊歩道':                    '/spots/spot-4-1.jpg',
+    '農泊 保木山':                       '/spots/spot-5-1.jpg',
+    '矢祭山公園':                        '/spots/spot-6-1.jpg',
+    '桧山登山道':                        '/spots/spot-7-1.jpg',
+    '夢想滝':                            '/spots/spot-8-1.jpg',
+    'みりょく満点物語矢祭店 太郎の四季': '/spots/spot-9.jpg',
+    // 棚倉町コース
+    'ルネサンス棚倉':                    '/spots/spot-1-2.jpg',
+    '馬場都々古別神社':                  '/spots/spot-2-2.jpg',
+    '蓮家寺':                            '/spots/spot-3-2.jpg',
+    '棚倉城跡（国指定史跡）':           '/spots/spot-4-2.jpg',
+    '山本不動尊':                        '/spots/spot-5-2.jpg',
+    'みりょく満点物語':                  '/spots/spot-6-2.jpg',
+    '八槻都々古別神社':                  '/spots/spot-7-2.jpg',
+    // 鮫川村コース
+    '手・まめ・館':                      '/spots/spot-1-3.jpg',
+    '清水端のしだれ桜':                  '/spots/spot-2-3.jpg',
+    '鹿角平観光牧場':                    '/spots/spot-3-3.jpg',
+    'Little Café':                       '/spots/spot-4-3.jpg',
+    'Rêve':                              '/spots/spot-5-3.jpg',
+    'あぶくま高原美術館':                '/spots/spot-6-3.jpg',
+    // 三角形の道
+    '湯遊ランドはなわ':                  '/spots/spot-1-4.jpg',
+    '不動滝':                            '/spots/spot-3-4.jpg',
+    '湯岐渓谷':                          '/spots/spot-4-4.jpg',
+};
+
 // カテゴリアイコンのマッピング
 const categoryIcons: Record<SpotCategory, React.ElementType> = {
     サイクルラック: Bike,
@@ -120,10 +162,10 @@ export function SpotCard({ spot, index }: { spot: Spot; index: number }) {
             )}
 
             {/* 画像 or プレースホルダー */}
-            {spot.image ? (
+            {(spot.image?.url || SPOT_LOCAL_IMAGES[spot.title]) ? (
                 <div className="h-40 overflow-hidden relative">
                     <img
-                        src={spot.image.url}
+                        src={spot.image?.url || SPOT_LOCAL_IMAGES[spot.title]}
                         alt={spot.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
