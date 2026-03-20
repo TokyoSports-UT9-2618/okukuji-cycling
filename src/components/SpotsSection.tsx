@@ -57,7 +57,7 @@ const SPOT_LOCAL_IMAGES: Record<string, string> = {
     '鹿角平観光牧場':                    '/spots/spot-3-3.jpg',
     'Little Café':                       '/spots/spot-4-3.jpg',
     'Rêve':                              '/spots/spot-6-3.jpg',
-    'あぶくま高原美術館':                '/spots/spot-5-3.jpg',
+    'あぶくま高原美術館':                '/spots/spot-2-4.jpg',
     // 三角形の道
     '湯遊ランドはなわ':                  '/spots/spot-1-4.jpg',
     '不動滝':                            '/spots/spot-5-4.jpg',
