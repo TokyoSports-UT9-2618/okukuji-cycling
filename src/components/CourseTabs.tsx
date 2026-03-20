@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import type { CourseData } from '@/data/courses';
-import { MapPin, Clock, ArrowUpDown, Phone, Home, AlarmClock } from 'lucide-react';
+import { MapPin, Clock, ArrowUpDown, Phone, Home, AlarmClock, Download } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 function getSpotTheme(name: string, description: string): { emoji: string; gradient: string } {
@@ -125,6 +125,28 @@ export default function CourseTabs({ courses }: Props) {
           </div>
         )}
 
+        {/* コースマップ */}
+        {active.mapImage && (
+          <div className="px-6 py-6 border-b border-slate-100">
+            <h3 className="text-base font-semibold text-slate-800 mb-4">コースマップ</h3>
+            <img
+              src={active.mapImage}
+              alt={`${active.name}マップ`}
+              className="w-full rounded-lg border border-slate-200 shadow-sm"
+            />
+            {active.mapPdf && (
+              <a
+                href={active.mapPdf}
+                download
+                className="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors"
+              >
+                <Download className="w-4 h-4" />
+                PDFダウンロード
+              </a>
+            )}
+          </div>
+        )}
+
         {/* コース説明 */}
         <div className="px-6 py-6">
           <h3 className="text-base font-semibold text-slate-800 mb-2">コース説明</h3>
@@ -156,14 +178,24 @@ export default function CourseTabs({ courses }: Props) {
                     key={spot.number}
                     className="rounded-xl overflow-hidden border border-slate-100 shadow-sm flex flex-col"
                   >
-                    {/* 画像エリア（絵文字＋グラデーション） */}
-                    <div className={cn('h-32 bg-gradient-to-br flex flex-col items-center justify-center relative', gradient)}>
-                      <div
-                        className="absolute inset-0 opacity-10"
-                        style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.6) 1px, transparent 0)', backgroundSize: '16px 16px' }}
-                      />
-                      <span className="text-4xl drop-shadow-md z-10">{emoji}</span>
-                    </div>
+                    {/* 画像エリア（写真またはグラデーション） */}
+                    {spot.image ? (
+                      <div className="h-32 bg-gray-200 overflow-hidden">
+                        <img
+                          src={spot.image}
+                          alt={spot.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    ) : (
+                      <div className={cn('h-32 bg-gradient-to-br flex flex-col items-center justify-center relative', gradient)}>
+                        <div
+                          className="absolute inset-0 opacity-10"
+                          style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.6) 1px, transparent 0)', backgroundSize: '16px 16px' }}
+                        />
+                        <span className="text-4xl drop-shadow-md z-10">{emoji}</span>
+                      </div>
+                    )}
                     {/* コンテンツ */}
                     <div className="p-4 flex flex-col flex-grow bg-white">
                       <h4 className="font-bold text-slate-800 text-sm mb-1">{spot.name}</h4>
