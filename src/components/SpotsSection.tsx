@@ -15,6 +15,9 @@ import {
     Store,
     Phone,
     ExternalLink,
+    Mountain,
+    BedDouble,
+    Landmark,
 } from 'lucide-react';
 import type { Spot, SpotCategory } from '@/types';
 import { cn } from '@/lib/utils';
@@ -72,6 +75,9 @@ const categoryIcons: Record<SpotCategory, React.ElementType> = {
     カフェ: Coffee,
     温泉: Thermometer,
     コンビニ: Store,
+    絶景: Mountain,
+    宿泊: BedDouble,
+    寺社仏閣: Landmark,
 };
 
 // カテゴリ色のマッピング
@@ -85,6 +91,9 @@ const categoryColors: Record<SpotCategory, string> = {
     カフェ: 'bg-amber-100 text-amber-700',
     温泉: 'bg-rose-100 text-rose-600',
     コンビニ: 'bg-green-100 text-green-600',
+    絶景: 'bg-indigo-100 text-indigo-600',
+    宿泊: 'bg-violet-100 text-violet-600',
+    寺社仏閣: 'bg-yellow-100 text-yellow-700',
 };
 
 // カテゴリ絵文字
@@ -98,6 +107,9 @@ const categoryEmojis: Record<SpotCategory, string> = {
     カフェ: '☕',
     温泉: '♨️',
     コンビニ: '🏪',
+    絶景: '🌄',
+    宿泊: '🏨',
+    寺社仏閣: '⛩️',
 };
 
 // カテゴリ背景グラデーション（プレースホルダー用）
@@ -111,6 +123,9 @@ const categoryBgGradients: Record<SpotCategory, string> = {
     カフェ: 'from-amber-500 to-amber-700',
     温泉: 'from-rose-500 to-rose-700',
     コンビニ: 'from-green-500 to-green-700',
+    絶景: 'from-indigo-500 to-indigo-700',
+    宿泊: 'from-violet-500 to-violet-700',
+    寺社仏閣: 'from-yellow-600 to-yellow-800',
 };
 
 // CMSのfacilitiesフィールド（英語キー）とSpotCategory（日本語ラベル）のマッピング
@@ -124,6 +139,9 @@ const FACILITY_MAPPING: Record<string, SpotCategory> = {
     cafe: 'カフェ',
     onsen: '温泉',
     store: 'コンビニ',
+    viewpoint: '絶景',
+    stay: '宿泊',
+    temples: '寺社仏閣',
 };
 
 interface SpotsSectionProps {

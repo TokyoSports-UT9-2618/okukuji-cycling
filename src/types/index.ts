@@ -63,7 +63,10 @@ export type SpotCategory =
     | 'ランチ'
     | 'カフェ'
     | '温泉'
-    | 'コンビニ';
+    | 'コンビニ'
+    | '絶景'
+    | '宿泊'
+    | '寺社仏閣';
 
 export interface Spot extends MicroCMSDate {
     id: string;
