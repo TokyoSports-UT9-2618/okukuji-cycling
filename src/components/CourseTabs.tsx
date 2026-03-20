@@ -2,8 +2,10 @@
 
 import { useState } from 'react';
 import type { CourseData } from '@/data/courses';
+import type { Spot } from '@/types';
 import { MapPin, Clock, ArrowUpDown, Phone, Home, AlarmClock, Download } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { SpotCard } from '@/components/SpotsSection';
 
 function getSpotTheme(name: string, description: string): { emoji: string; gradient: string } {
   const text = (name + ' ' + description).toLowerCase();
@@ -47,9 +49,10 @@ const levelDots = (level: number) =>
 
 interface Props {
   courses: CourseData[];
+  spots: Spot[];
 }
 
-export default function CourseTabs({ courses }: Props) {
+export default function CourseTabs({ courses, spots }: Props) {
   const [activeIndex, setActiveIndex] = useState(0);
   const active = courses[activeIndex];
 
@@ -164,75 +167,41 @@ export default function CourseTabs({ courses }: Props) {
         )}
 
         {/* スポット一覧 */}
-        {active.spots.length > 0 && (
-          <div className="px-6 pb-8">
-            <h3 className="text-base font-semibold text-slate-800 mb-4 flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-emerald-500" />
-              立ち寄りスポット（{active.spots.length}件）
-            </h3>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {active.spots.map((spot) => {
-                const { emoji, gradient } = getSpotTheme(spot.name, spot.description);
-                return (
-                  <div
-                    key={spot.number}
-                    className="rounded-xl overflow-hidden border border-slate-100 shadow-sm flex flex-col"
-                  >
-                    {/* 画像エリア（写真またはグラデーション） */}
-                    {spot.image ? (
-                      <div className="h-32 bg-gray-200 overflow-hidden">
-                        <img
-                          src={spot.image}
-                          alt={spot.name}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                    ) : (
-                      <div className={cn('h-32 bg-gradient-to-br flex flex-col items-center justify-center relative', gradient)}>
-                        <div
-                          className="absolute inset-0 opacity-10"
-                          style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.6) 1px, transparent 0)', backgroundSize: '16px 16px' }}
-                        />
-                        <span className="text-4xl drop-shadow-md z-10">{emoji}</span>
-                      </div>
-                    )}
-                    {/* コンテンツ */}
-                    <div className="p-4 flex flex-col flex-grow bg-white">
-                      <h4 className="font-bold text-slate-800 text-sm mb-1">{spot.name}</h4>
-                      <p className="text-slate-500 text-xs leading-relaxed mb-3 line-clamp-2">{spot.description}</p>
-                      <div className="mt-auto space-y-1 text-xs text-slate-500">
-                        {spot.address && (
-                          <div className="flex items-start gap-1">
-                            <Home className="w-3 h-3 mt-0.5 flex-shrink-0" />
-                            <span>{spot.address}</span>
-                          </div>
-                        )}
-                        {spot.hours && (
-                          <div className="flex items-center gap-1">
-                            <Clock className="w-3 h-3 flex-shrink-0" />
-                            <span>{spot.hours}</span>
-                          </div>
-                        )}
-                        {spot.closed && (
-                          <div className="flex items-center gap-1">
-                            <span className="font-medium">休：</span>
-                            <span>{spot.closed}</span>
-                          </div>
-                        )}
-                        {spot.phone && (
-                          <div className="flex items-center gap-1">
-                            <Phone className="w-3 h-3 flex-shrink-0" />
-                            <span>{spot.phone}</span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
+        {(() => {
+          // アクティブなコース名でスポットをフィルタリング
+          const filteredSpots = spots.filter((spot) => {
+            if (!spot.course) return false;
+            // course フィールドが配列またはコース名を含む場合
+            const courseName = active.name as any;
+            return Array.isArray(spot.course)
+              ? spot.course.includes(courseName)
+              : String(spot.course).includes(courseName);
+          });
+
+          if (filteredSpots.length === 0) {
+            return (
+              <div className="px-6 pb-8">
+                <div className="text-center py-8 text-slate-500">
+                  <p>スポット情報は準備中です</p>
+                </div>
+              </div>
+            );
+          }
+
+          return (
+            <div className="px-6 pb-8">
+              <h3 className="text-base font-semibold text-slate-800 mb-4 flex items-center gap-2">
+                <MapPin className="w-4 h-4 text-emerald-500" />
+                立ち寄りスポット（{filteredSpots.length}件）
+              </h3>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {filteredSpots.map((spot, index) => (
+                  <SpotCard key={spot.id} spot={spot} index={index} />
+                ))}
+              </div>
             </div>
-          </div>
-        )}
+          );
+        })()}
       </div>
     </div>
   );

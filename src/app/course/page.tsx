@@ -2,6 +2,8 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import CourseTabs from '@/components/CourseTabs';
 import { courses } from '@/data/courses';
+import { client } from '@/lib/client';
+import type { Spot } from '@/types';
 
 export const metadata = {
     title: 'コース情報 | 奥久慈街道サイクリング',
@@ -9,7 +11,19 @@ export const metadata = {
         '奥久慈街道エリアのサイクリングコース情報。塙町・矢祭町・棚倉町・鮫川村・ツール・ド・はなわ・三角形の道・奥久慈街道の7コースをご紹介。',
 };
 
-export default function CoursePage() {
+export default async function CoursePage() {
+    let spots: Spot[] = [];
+
+    try {
+        const spotsData = await client.getList<Spot>({
+            endpoint: 'spots',
+            queries: { limit: 100 },
+        });
+        spots = spotsData.contents;
+    } catch (error) {
+        console.error('Failed to fetch spots:', error);
+    }
+
     return (
         <>
             <Header />
@@ -31,7 +45,7 @@ export default function CoursePage() {
                 </section>
 
                 {/* タブメニュー */}
-                <CourseTabs courses={courses} />
+                <CourseTabs courses={courses} spots={spots} />
             </main>
             <Footer />
         </>
