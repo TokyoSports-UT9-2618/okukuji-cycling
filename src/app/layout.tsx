@@ -23,6 +23,10 @@ export const metadata: Metadata = {
     '自転車旅',
     '袋田の滝',
   ],
+  icons: {
+    icon: '/favicon.png',
+    apple: '/favicon.png',
+  },
   openGraph: {
     title: '奥久慈街道サイクリング | Okukuji Kaido Cycling',
     description:
