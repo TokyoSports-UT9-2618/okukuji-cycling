@@ -21,12 +21,16 @@ export default async function Home() {
   let mainCourse: Course | null = null;
 
   try {
-    // News Fetch
+    // News Fetch: 多めに取得してpinnedを優先的に表示
     const newsData = await client.get({
       endpoint: 'news',
-      queries: { limit: 3, orders: '-publishDate' },
+      queries: { limit: 10, orders: '-publishDate' },
     });
-    news = newsData.contents;
+    const allNews: News[] = newsData.contents;
+    // pinnedな投稿を先頭に、残りはpublishDate降順で最大3件
+    const pinnedNews = allNews.filter((n) => n.pinned);
+    const nonPinnedNews = allNews.filter((n) => !n.pinned);
+    news = [...pinnedNews, ...nonPinnedNews].slice(0, 3);
 
     // Course Fetch (Main Course)
     const courseData = await client.get({

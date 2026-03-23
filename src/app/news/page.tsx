@@ -17,8 +17,13 @@ export default async function NewsPage() {
     try {
         const data = await client.getList({
             endpoint: 'news',
+            queries: { limit: 100, orders: '-publishDate' },
         });
-        news = data.contents;
+        // pinnedな投稿を先頭に並べる
+        const all: News[] = data.contents;
+        const pinned = all.filter((n) => n.pinned);
+        const nonPinned = all.filter((n) => !n.pinned);
+        news = [...pinned, ...nonPinned];
     } catch (error) {
         console.error('Failed to fetch news:', error);
         news = mockNews;
@@ -28,6 +33,8 @@ export default async function NewsPage() {
     if (news.length === 0) {
         news = mockNews;
     }
+
+    const pinnedCount = news.filter((n) => n.pinned).length;
 
     return (
         <>
@@ -51,6 +58,11 @@ export default async function NewsPage() {
                 {/* ニュース一覧 */}
                 <section className="py-16 bg-gray-50">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        {pinnedCount > 0 && (
+                            <p className="text-sm text-amber-600 font-medium mb-6 flex items-center gap-1">
+                                <span>📌</span> 固定投稿が{pinnedCount}件あります
+                            </p>
+                        )}
                         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                             {news.map((item, index) => (
                                 <div key={item.id} className="w-full h-full">

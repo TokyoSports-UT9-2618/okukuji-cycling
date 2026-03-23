@@ -29,7 +29,9 @@ export interface News extends MicroCMSDate {
     category: NewsCategory;
     thumbnail?: MicroCMSImage;
     eyecatch?: MicroCMSImage;
+    images?: MicroCMSImage[]; // 記事上部タイル表示用（最大3枚）
     content: string; // HTML
+    pinned?: boolean; // TOPページに固定表示するかどうか
 }
 
 // Courses（モデルコース）

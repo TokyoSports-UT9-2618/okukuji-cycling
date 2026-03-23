@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Calendar, ChevronRight, Tag } from 'lucide-react';
+import { Calendar, ChevronRight, Tag, Pin } from 'lucide-react';
 import type { News, NewsCategory } from '@/types';
 import { cn } from '@/lib/utils';
 
@@ -44,10 +44,19 @@ export function NewsCard({ news, index }: NewsCardProps) {
         >
             <Link
                 href={`/news/${news.id}`}
-                className="block bg-white rounded-xl overflow-hidden border border-gray-100 shadow-md hover:shadow-lg transition-all duration-300 hover:scale-[1.02] group h-full flex flex-col"
+                className={cn(
+                    "block bg-white rounded-xl overflow-hidden border shadow-md hover:shadow-lg transition-all duration-300 hover:scale-[1.02] group h-full flex flex-col",
+                    news.pinned ? "border-amber-300" : "border-gray-100"
+                )}
             >
                 {/* サムネイル */}
                 <div className="aspect-video w-full overflow-hidden bg-gray-50 flex items-center justify-center relative">
+                    {news.pinned && (
+                        <div className="absolute top-2 left-2 z-10 flex items-center gap-1 bg-amber-400 text-white text-xs font-bold px-2 py-1 rounded-full shadow">
+                            <Pin className="w-3 h-3" />
+                            固定
+                        </div>
+                    )}
                     <img
                         src={displaySrc}
                         alt={news.title}
@@ -98,9 +107,6 @@ interface NewsSectionProps {
 }
 
 export default function NewsSection({ news }: NewsSectionProps) {
-    // 最新3件のみ表示
-    const latestNews = news.slice(0, 3);
-
     return (
         <section id="news" className="py-20 bg-emerald-50 overflow-hidden">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -125,7 +131,7 @@ export default function NewsSection({ news }: NewsSectionProps) {
 
                 {/* ニュースグリッド */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-                    {latestNews.map((item, index) => (
+                    {news.map((item, index) => (
                         <NewsCard key={item.id} news={item} index={index} />
                     ))}
                 </div>
