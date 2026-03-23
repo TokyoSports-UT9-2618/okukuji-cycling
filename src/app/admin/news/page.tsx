@@ -81,16 +81,34 @@ function formatBytes(b: number) {
 function ListView({ onNew, onEdit }: { onNew: () => void; onEdit: (item: NewsItem) => void }) {
     const [items, setItems] = useState<NewsItem[]>([]);
     const [loading, setLoading] = useState(true);
+    const [loadingId, setLoadingId] = useState<string | null>(null);
     const [error, setError] = useState('');
 
     useEffect(() => {
-        fetch(`https://${SERVICE_DOMAIN}.microcms.io/api/v1/news?limit=100&orders=-publishDate`, {
+        // 一覧ではcontentを除いた軽量フィールドのみ取得
+        fetch(`https://${SERVICE_DOMAIN}.microcms.io/api/v1/news?limit=100&orders=-publishDate&fields=id,title,category,publishDate,publishedAt,pinned,eyecatch,images`, {
             headers: { 'X-MICROCMS-API-KEY': API_KEY },
         })
             .then((r) => r.json())
             .then((data) => { setItems(data.contents || []); setLoading(false); })
             .catch(() => { setError('記事の読み込みに失敗しました'); setLoading(false); });
     }, []);
+
+    const handleEdit = async (item: NewsItem) => {
+        setLoadingId(item.id);
+        try {
+            // 編集時は個別GETで完全なデータ（contentを含む）を取得
+            const res = await fetch(`https://${SERVICE_DOMAIN}.microcms.io/api/v1/news/${item.id}`, {
+                headers: { 'X-MICROCMS-API-KEY': API_KEY },
+            });
+            const full = await res.json();
+            onEdit(full);
+        } catch {
+            onEdit(item); // フォールバック
+        } finally {
+            setLoadingId(null);
+        }
+    };
 
     return (
         <div className="max-w-2xl mx-auto px-4 py-10">
@@ -119,8 +137,9 @@ function ListView({ onNew, onEdit }: { onNew: () => void; onEdit: (item: NewsIte
                     {items.map((item) => (
                         <button
                             key={item.id}
-                            onClick={() => onEdit(item)}
-                            className="w-full text-left bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-emerald-200 transition-all p-4 flex items-center gap-4 group"
+                            onClick={() => handleEdit(item)}
+                            disabled={loadingId !== null}
+                            className="w-full text-left bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md hover:border-emerald-200 transition-all p-4 flex items-center gap-4 group disabled:opacity-60"
                         >
                             {/* サムネイル */}
                             <div className="w-16 h-16 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
@@ -150,10 +169,16 @@ function ListView({ onNew, onEdit }: { onNew: () => void; onEdit: (item: NewsIte
                             </div>
 
                             <div className="flex items-center gap-2 flex-shrink-0">
-                                <span className="text-xs text-emerald-600 font-medium flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <Pencil className="w-3 h-3" />編集
-                                </span>
-                                <ChevronRight className="w-4 h-4 text-gray-300 group-hover:text-emerald-400 transition-colors" />
+                                {loadingId === item.id ? (
+                                    <Loader2 className="w-4 h-4 text-emerald-500 animate-spin" />
+                                ) : (
+                                    <>
+                                        <span className="text-xs text-emerald-600 font-medium flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <Pencil className="w-3 h-3" />編集
+                                        </span>
+                                        <ChevronRight className="w-4 h-4 text-gray-300 group-hover:text-emerald-400 transition-colors" />
+                                    </>
+                                )}
                             </div>
                         </button>
                     ))}
