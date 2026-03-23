@@ -24,7 +24,7 @@ export default async function Home() {
     // News Fetch
     const newsData = await client.get({
       endpoint: 'news',
-      queries: { limit: 3 },
+      queries: { limit: 3, orders: '-publishedAt' },
     });
     news = newsData.contents;
 
