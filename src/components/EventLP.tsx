@@ -37,6 +37,7 @@ export default function EventLP({ event }: { event: EventData }) {
           <a className="font-bold tracking-tight uppercase text-zinc-600 hover:opacity-80 transition-opacity text-sm" href="#about">About</a>
           <a className="font-bold tracking-tight uppercase text-zinc-600 hover:opacity-80 transition-opacity text-sm" href="#highlights">Highlights</a>
           <a className="font-bold tracking-tight uppercase text-zinc-600 hover:opacity-80 transition-opacity text-sm" href="#schedule">Schedule</a>
+          <a className="font-bold tracking-tight uppercase text-zinc-600 hover:opacity-80 transition-opacity text-sm" href="#map">Map</a>
         </nav>
         <a
           href={event.ctaButtonUrl}
@@ -132,12 +133,12 @@ export default function EventLP({ event }: { event: EventData }) {
         {/* Gallery: Bento Grid */}
         <section className="py-12 px-6 md:px-12 bg-white">
           <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-2 md:grid-cols-4 md:grid-rows-2 gap-4 md:h-[700px]">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 md:grid-rows-2 gap-4 auto-rows-[200px] sm:auto-rows-[250px] md:auto-rows-auto md:h-[700px]">
               {event.galleryImages.map((img, i) => (
                 <motion.div
                   key={i}
                   className={`relative group overflow-hidden rounded-lg ${
-                    i === 0 ? 'col-span-2 row-span-2' : i === 1 ? 'col-span-2' : ''
+                    i === 0 ? 'sm:col-span-2 md:row-span-2 min-h-[250px]' : i === 1 ? 'sm:col-span-2 min-h-[200px]' : 'min-h-[200px]'
                   }`}
                   initial="hidden"
                   whileInView="visible"
@@ -254,6 +255,36 @@ export default function EventLP({ event }: { event: EventData }) {
             </div>
           </div>
         </motion.section>
+
+        {/* Map Section */}
+        {event.mapEmbedUrl && (
+          <motion.section
+            className="py-24 px-6 md:px-12 bg-[#eef1f3]"
+            id="map"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-100px' }}
+            variants={fadeUp}
+          >
+            <div className="max-w-7xl mx-auto">
+              <div className="mb-12">
+                <h2 className="text-4xl font-bold tracking-tight mb-4">COURSE MAP</h2>
+                <div className="w-20 h-1 bg-[#a13900]" />
+              </div>
+              <div className="rounded-xl overflow-hidden shadow-lg">
+                <iframe
+                  src={event.mapEmbedUrl}
+                  width="100%"
+                  height="500"
+                  className="border-0 w-full"
+                  allowFullScreen
+                  loading="lazy"
+                  title="コースマップ"
+                />
+              </div>
+            </div>
+          </motion.section>
+        )}
 
         {/* Final CTA */}
         <section className="py-24 px-6 md:px-12 bg-[#a13900] text-[#ffefea]">

@@ -34,6 +34,7 @@ export type EventData = {
   ctaText: string;
   ctaButtonLabel: string;
   ctaButtonUrl: string;
+  mapEmbedUrl?: string;
   status: 'upcoming' | 'open' | 'closed' | 'finished';
 };
 
@@ -108,6 +109,7 @@ export const events: EventData[] = [
     ctaText: '2026年秋の奥久慈ライド、定員に達し次第締め切り。今すぐエントリーを。',
     ctaButtonLabel: 'エントリーする',
     ctaButtonUrl: '#',
+    mapEmbedUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d102400!2d140.35!3d36.77!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60218c0a5b8b1c5d%3A0x4e3e5f6a7b8c9d0e!2z5aWl5LmF5oWI!5e0!3m2!1sja!2sjp!4v1',
     status: 'upcoming',
   },
 ];
