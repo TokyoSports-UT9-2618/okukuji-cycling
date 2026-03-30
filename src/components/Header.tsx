@@ -10,6 +10,7 @@ const navItems = [
     { label: 'ホーム', href: '/' },
     { label: 'コース情報', href: '/course' },
     { label: 'スポット', href: '/spots' },
+    { label: 'イベント', href: '/events' },
     { label: 'お知らせ', href: '/news' },
     { label: 'アクセス', href: '/#access' },
 ];
