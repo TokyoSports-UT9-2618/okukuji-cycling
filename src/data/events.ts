@@ -16,6 +16,12 @@ export type EventDetail = {
   note?: string;
 };
 
+export type EventGuestSocial = {
+  platform: 'youtube' | 'instagram' | 'twitter' | 'tiktok';
+  url: string;
+  handle: string;
+};
+
 export type EventGuest = {
   name: string;
   title: string;
@@ -23,6 +29,7 @@ export type EventGuest = {
   image: string;
   youtubeUrl?: string;
   youtubeChannelName?: string;
+  socials?: EventGuestSocial[];
 };
 
 export type EventAidStation = {
@@ -118,7 +125,14 @@ export const events: EventData[] = [
       description:
         '人気自転車YouTuberのあむさんがゲストライダーとして参加！一緒に奥久慈の絶景とグルメを楽しみながら走りましょう。初心者から経験者まで、みんなが楽しめるゆるポタライドです。',
       image: '/images/events/suigun-cycling/guest.jpg',
+      youtubeUrl: 'https://www.youtube.com/@amuaiamu',
       youtubeChannelName: 'あむちゃん',
+      socials: [
+        { platform: 'youtube', url: 'https://www.youtube.com/@amuaiamu', handle: '@amuaiamu' },
+        { platform: 'instagram', url: 'https://www.instagram.com/amuaiamu', handle: '@amuaiamu' },
+        { platform: 'twitter', url: 'https://twitter.com/macaroncoloram', handle: '@macaroncoloram' },
+        { platform: 'tiktok', url: 'https://www.tiktok.com/@amuaiamu', handle: '@amuaiamu' },
+      ],
     },
 
     // About
@@ -239,6 +253,7 @@ export const events: EventData[] = [
         description:
           '山本キャンプ場手前の川沿いで、焼きだんごを頬張りながら休憩。',
         menu: '焼きだんご',
+        image: '/images/events/suigun-cycling/aid-yamamoto.jpg',
       },
       {
         name: '道の駅はなわ',
@@ -246,6 +261,7 @@ export const events: EventData[] = [
         description:
           'メインのランチエイド。えっちゃん弁当と野点コーヒーでゆったり。',
         menu: 'えっちゃん弁当 / 野点コーヒー',
+        image: '/images/events/suigun-cycling/aid-hanawa.jpg',
       },
       {
         name: '矢祭山駅（ゴール）',
@@ -253,6 +269,7 @@ export const events: EventData[] = [
         description:
           'ゴール地点。名物の鮎の塩焼きを食べながら、矢祭山公園を散策。',
         menu: '鮎の塩焼き',
+        image: '/images/events/suigun-cycling/aid-yamatsuri.jpg',
       },
     ],
 
