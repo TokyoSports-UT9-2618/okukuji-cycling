@@ -13,12 +13,10 @@ type NavItem = {
     children?: { label: string; href: string }[];
 };
 
-const eventChildren = events
-    .filter((e) => e.slug !== 'veloce-kinetic-2026-autumn')
-    .map((e) => ({
-        label: e.title.replace('\n', ''),
-        href: `/events/${e.slug}`,
-    }));
+const eventChildren = events.map((e) => ({
+    label: e.title.replace('\n', ''),
+    href: `/events/${e.slug}`,
+}));
 
 const navItems: NavItem[] = [
     { label: 'ホーム', href: '/' },
