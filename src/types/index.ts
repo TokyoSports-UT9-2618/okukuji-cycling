@@ -32,6 +32,7 @@ export interface News extends MicroCMSDate {
     images?: MicroCMSImage[]; // 記事上部タイル表示用（最大3枚）
     content: string; // HTML
     pinned?: boolean; // TOPページに固定表示するかどうか
+    eventTag?: string[]; // イベントLPとの紐付け（例: ['suigun-cycling']）
 }
 
 // Courses（モデルコース）

@@ -1,7 +1,9 @@
 import { notFound } from 'next/navigation';
 import { events } from '@/data/events';
+import { client } from '@/lib/client';
 import EventLP from '@/components/EventLP';
 import type { Metadata } from 'next';
+import type { News, MicroCMSListResponse } from '@/types';
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -17,14 +19,45 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!event) return {};
 
   return {
-    title: `${event.title} | 奥久慈街道サイクリング`,
+    title: `${event.title.replace('\n', ' ')} | 奥久慈街道サイクリング`,
     description: event.heroTagline,
     openGraph: {
-      title: `${event.title} | 奥久慈街道サイクリング`,
+      title: `${event.title.replace('\n', ' ')} | 奥久慈街道サイクリング`,
       description: event.heroTagline,
       images: [event.heroImage],
     },
   };
+}
+
+async function getEventNews(eventTag?: string): Promise<News[]> {
+  if (!eventTag) return [];
+  try {
+    const res = await client.getList<News>({
+      endpoint: 'news',
+      queries: {
+        filters: `eventTag[contains]${eventTag}`,
+        orders: '-publishDate',
+        limit: 5,
+      },
+    });
+    return res.contents;
+  } catch {
+    // eventTagフィールドがまだmicroCMSに追加されていない場合や、
+    // category=イベントのニュースをフォールバックで取得
+    try {
+      const res = await client.getList<News>({
+        endpoint: 'news',
+        queries: {
+          filters: 'category[equals]イベント',
+          orders: '-publishDate',
+          limit: 3,
+        },
+      });
+      return res.contents;
+    } catch {
+      return [];
+    }
+  }
 }
 
 export default async function EventPage({ params }: Props) {
@@ -33,17 +66,15 @@ export default async function EventPage({ params }: Props) {
 
   if (!event) notFound();
 
+  const news = await getEventNews(event.eventTag);
+
   return (
     <>
       <link
         rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
       />
-      <link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Manrope:wght@300;400;700&display=swap"
-      />
-      <EventLP event={event} />
+      <EventLP event={event} news={news} />
     </>
   );
 }
