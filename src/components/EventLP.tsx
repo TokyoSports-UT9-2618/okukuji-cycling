@@ -216,6 +216,34 @@ export default function EventLP({ event, news }: EventLPProps) {
               <span className="text-xs">→</span>
             </div>
           </div>
+
+          {/* Gallery Video */}
+          {event.galleryVideoId && (
+            <motion.div
+              className="px-6 md:px-12 mt-8"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={fadeUp}
+            >
+              <div className="max-w-6xl mx-auto">
+                <p className="text-sm font-medium text-slate-500 mb-3 flex items-center gap-2">
+                  <MaterialIcon name="play_circle" className="text-lg" style={{ color: primary }} />
+                  昨年の動画もチェック！
+                </p>
+                <div className="relative w-full aspect-video rounded-xl overflow-hidden shadow-md">
+                  <iframe
+                    src={`https://www.youtube.com/embed/${event.galleryVideoId}`}
+                    title="イベント動画"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="absolute inset-0 w-full h-full border-0"
+                    loading="lazy"
+                  />
+                </div>
+              </div>
+            </motion.div>
+          )}
         </section>
 
         {/* Highlights Section */}

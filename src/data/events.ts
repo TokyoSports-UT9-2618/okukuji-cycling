@@ -98,6 +98,7 @@ export type EventData = {
   eventTag?: string;
   registrationStartDate?: string;
   registrationNote?: string;
+  galleryVideoId?: string;
 };
 
 export const events: EventData[] = [
@@ -117,6 +118,7 @@ export const events: EventData[] = [
     status: 'upcoming',
     registrationStartDate: '2026-04-11',
     registrationNote: '4月11日（土）募集開始',
+    galleryVideoId: 'JbFrXtqvvwk',
 
     // ゲスト
     guest: {
