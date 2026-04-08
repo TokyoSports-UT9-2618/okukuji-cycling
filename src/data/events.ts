@@ -150,7 +150,6 @@ export const events: EventData[] = [
       '/images/events/suigun-cycling/gallery-2.jpg',
       '/images/events/suigun-cycling/gallery-3.jpg',
       '/images/events/suigun-cycling/gallery-4.jpg',
-      '/images/events/suigun-cycling/gallery-5.jpg',
       '/images/events/suigun-cycling/gallery-6.jpg',
       '/images/events/suigun-cycling/gallery-7.jpg',
       '/images/events/suigun-cycling/gallery-8.jpg',
@@ -201,9 +200,9 @@ export const events: EventData[] = [
     // タイムテーブル
     schedule: [
       {
-        time: '07:00',
-        title: '那珂市役所駐車場 集合',
-        description: '車で来る方はここに集合。上菅谷駅まで移動します。',
+        time: '07:15',
+        title: '上菅谷駅に集合',
+        description: '車でお越しの方は近隣の駐車場にお停めいただいてからお集まりください。',
       },
       {
         time: '07:53',
@@ -243,7 +242,12 @@ export const events: EventData[] = [
       {
         time: '17:31',
         title: '矢祭山駅 サイクルトレインで帰路',
-        description: '18:55上菅谷駅着。おつかれさまでした！',
+        description: '皆さん、乗り遅れないようにお集まりください。',
+      },
+      {
+        time: '18:55',
+        title: '上菅谷駅到着',
+        description: 'お疲れ様でした！',
       },
     ],
 
@@ -303,7 +307,7 @@ export const events: EventData[] = [
     ctaText:
       '定員20名・先着順です。募集開始は4月11日（土）。お早めにエントリーを！',
     ctaButtonLabel: 'エントリーする',
-    ctaButtonUrl: '#',
+    ctaButtonUrl: 'https://www.sportsentry.ne.jp/event/t/105184',
 
   },
 
