@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import { events } from '@/data/events';
 import { client } from '@/lib/client';
-import EventLP from '@/components/EventLP';
+import EventLP from '@/components/event-lp';
 import type { Metadata } from 'next';
 import type { News, MicroCMSListResponse } from '@/types';
 
