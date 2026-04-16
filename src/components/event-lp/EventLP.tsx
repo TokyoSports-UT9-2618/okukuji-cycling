@@ -14,6 +14,7 @@ import ScheduleSection from './ScheduleSection';
 import TransportSection from './TransportSection';
 import NewsSection from './NewsSection';
 import CtaSection from './CtaSection';
+import CampaignBanner from './CampaignBanner';
 import EventFooter from './EventFooter';
 
 type EventLPProps = {
@@ -40,6 +41,7 @@ export default function EventLP({ event, news }: EventLPProps) {
         {event.transport && <TransportSection transport={event.transport} primary={primary} />}
         {news && news.length > 0 && <NewsSection news={news} primary={primary} />}
         <CtaSection event={event} primary={primary} />
+        <CampaignBanner />
       </main>
 
       <EventFooter />
